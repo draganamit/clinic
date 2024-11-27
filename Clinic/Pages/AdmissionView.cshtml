@@ -1,0 +1,36 @@
+﻿@page
+@model Clinic.Pages.AdmissionViewModel
+@{
+}
+<a class="btn btn-primary" href="@Url.Page("/AddAdmission")">Dodaj prijem</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Datum i vrijeme prijema</th>
+            <th>Pacijent</th>
+            <th>Nadležni doktor</th>
+            <th>Hitan prijem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Admissions != null && Model.Admissions.Any())
+        {
+            @foreach (var admissions in Model.Admissions)
+            {
+                <tr>
+                    <td>@admissions.AdmissionDate</td>
+                    <td>@(admissions.Patient.FirstName + " " + admissions.Patient.LastName)</td>
+                    <td>@(admissions.Doctor.FirstName + " " + @admissions.Doctor.LastName)</td>
+                    <td>@admissions.IsEmergency</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3">Nema podataka o pacijentima.</td>
+            </tr>
+        }
+
+    </tbody>
+</table>

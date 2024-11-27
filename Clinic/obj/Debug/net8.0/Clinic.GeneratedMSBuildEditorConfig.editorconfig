@@ -26,12 +26,44 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/draga/source/repos/draganamit/clinic/Clinic/Pages/AddAdmission.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkQWRtaXNzaW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/draga/source/repos/draganamit/clinic/Clinic/Pages/AddDoctor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkRG9jdG9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/draga/source/repos/draganamit/clinic/Clinic/Pages/AddMedicalReport.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkTWVkaWNhbFJlcG9ydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/draga/source/repos/draganamit/clinic/Clinic/Pages/AddPatient.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkUGF0aWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/draga/source/repos/draganamit/clinic/Clinic/Pages/AdmissionView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaXNzaW9uVmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/draga/source/repos/draganamit/clinic/Clinic/Pages/DoctorView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRG9jdG9yVmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/draga/source/repos/draganamit/clinic/Clinic/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/draga/source/repos/draganamit/clinic/Clinic/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/draga/source/repos/draganamit/clinic/Clinic/Pages/MedicalReporView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWVkaWNhbFJlcG9yVmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/draga/source/repos/draganamit/clinic/Clinic/Pages/PatientView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGF0aWVudFZpZXcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/draga/source/repos/draganamit/clinic/Clinic/Pages/Privacy.cshtml]

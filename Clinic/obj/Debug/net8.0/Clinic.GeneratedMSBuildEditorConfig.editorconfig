@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\draga\source\repos\draganamit\clinic\Clinic
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/draga/source/repos/draganamit/clinic/Clinic/Areas/Identity/Pages/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/draga/source/repos/draganamit/clinic/Clinic/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

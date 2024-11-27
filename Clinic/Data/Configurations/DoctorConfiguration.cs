@@ -19,10 +19,6 @@ namespace Clinic.Data.Configurations
                 .HasForeignKey(d => d.TitleId)
                 .OnDelete(DeleteBehavior.Restrict); 
 
-            builder.HasOne(d => d.User)
-                .WithMany()
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(d => d.Admissions)
                 .WithOne(a => a.Doctor) 

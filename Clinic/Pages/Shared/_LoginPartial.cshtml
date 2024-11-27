@@ -1,6 +1,7 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+﻿@using Clinic.Models.Identity
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> userManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

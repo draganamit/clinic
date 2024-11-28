@@ -2,4 +2,31 @@
 @model Clinic.Pages.AddAdmissionModel
 @{
 }
-<label>Dodavanje prijema</label>
+<h1>Dodavanje prijema</h1>
+<form method="post">
+    <div class="form-group">
+        <label for="AdmissionDate" class="control-label">Datum i vrijeme prijema</label>
+        <input asp-for="Admission.AdmissionDate" name="Admission.AdmissionDate" type="date" class="form-control" />
+        <span asp-validation-for="Admission.AdmissionDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="Gender">Pacijent</label>
+        <select asp-for="Admission.PatientId" class="form-control" asp-items="Model.Patients">
+            <option value="">Izaberite pacijenta</option>
+        </select>
+        <span asp-validation-for="Admission.PatientId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="Title">Nadležni ljekar</label>
+        <select asp-for="Admission.DoctorId" class="form-control" asp-items="Model.Doctors">
+            <option value="">Izaberite ljekara</option>
+        </select>
+        <span asp-validation-for="Admission.DoctorId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>
+            <input type="checkbox" asp-for="Admission.IsEmergency" /> Hitan prijem
+        </label>
+    </div>
+    <button type="submit" class="btn btn-primary">Dodaj prijem</button>
+</form>

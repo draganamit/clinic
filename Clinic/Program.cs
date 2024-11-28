@@ -14,6 +14,7 @@ builder.Services.AddDefaultIdentity<User>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddRazorPages();
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 

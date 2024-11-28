@@ -145,3 +145,4 @@ C:\Users\draga\source\repos\draganamit\clinic\Clinic\obj\Debug\net8.0\refint\Cli
 C:\Users\draga\source\repos\draganamit\clinic\Clinic\obj\Debug\net8.0\Clinic.pdb
 C:\Users\draga\source\repos\draganamit\clinic\Clinic\obj\Debug\net8.0\Clinic.genruntimeconfig.cache
 C:\Users\draga\source\repos\draganamit\clinic\Clinic\obj\Debug\net8.0\ref\Clinic.dll
+C:\Users\draga\source\repos\draganamit\clinic\Clinic\bin\Debug\net8.0\AutoMapper.dll

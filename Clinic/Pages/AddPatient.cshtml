@@ -1,8 +1,8 @@
-﻿@page
+﻿@page "{patientId?}"
 @model Clinic.Pages.AddPatientModel
 @{
 }
-<h1>Dodavanje pacijenta</h1>
+<h1>@Model.PageTitle</h1>
 <form method="post">
     <div class="form-group">
         <label for="FirstName" class="control-label">Ime</label>
@@ -41,5 +41,5 @@
         <input asp-for="Patient.PhoneNumber" name="Patient.PhoneNumber" class="form-control" />
         <span class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Dodaj pacijenta</button>
+    <button type="submit" class="btn btn-primary">@Model.ButtonText</button>
 </form>

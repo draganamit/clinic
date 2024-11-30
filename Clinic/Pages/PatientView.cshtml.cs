@@ -1,5 +1,7 @@
 using Clinic.Data;
 using Clinic.Models;
+using Clinic.Models.DTOs;
+using Clinic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -8,17 +10,18 @@ namespace Clinic.Pages
 {
     public class PatientViewModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IPatientService _patientService;
 
-        public PatientViewModel(ApplicationDbContext context)
-        { 
-            _context = context;
+        public PatientViewModel(IPatientService patientService)
+        {
+            _patientService = patientService;
         }
 
-        public IList<Patient> Patients { get; set; }
+        public IList<GetPatientDto> Patients { get; set; }
+
         public async Task OnGetAsync()
         {
-            Patients = await _context.Patients.Include(p => p.Gender).ToListAsync();
+            Patients = await _patientService.GetAllPatients();
         }
     }
 }

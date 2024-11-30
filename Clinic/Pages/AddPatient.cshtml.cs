@@ -2,6 +2,7 @@ using AutoMapper;
 using Clinic.Data;
 using Clinic.Models;
 using Clinic.Models.DTOs;
+using Clinic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,30 +13,50 @@ namespace Clinic.Pages
 {
     public class AddPatientModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ICodeService _codeService;
+        private readonly IPatientService _patientService;
 
-        public AddPatientModel(ApplicationDbContext context, IMapper mapper)
+
+        public AddPatientModel(IMapper mapper, ICodeService codeService, IPatientService patientService)
         {
-            _context = context;
             _mapper = mapper;
+            _codeService = codeService;
+            _patientService = patientService;
         }
         public IList<SelectListItem> Genders { get; set; }
 
         [BindProperty]
         public AddPatientDto Patient { get; set; }
 
-        public async Task OnGetAsync()
+        public string PageTitle { get; set; }
+        public string ButtonText { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(long? patientId)
         {
-            Genders = await _context.Genders
-                .Select(g => new SelectListItem
+            Genders = await _codeService.GetGenders();
+            if (patientId.HasValue)
+            {
+                GetPatientByIdDto patient = await _patientService.GetPatientById(patientId.Value);
+
+                if (patient == null)
                 {
-                    Value = g.Id.ToString(),
-                    Text = g.Name
-                })
-                .ToListAsync();
+
+                    return NotFound();
+                }
+
+                Patient = _mapper.Map<AddPatientDto>(patient);
+                PageTitle = "Izmjeni pacijenta";
+                ButtonText = "Izmjeni";
+            }
+            else
+            {
+                PageTitle = "Dodaj pacijenta";
+                ButtonText = "Dodaj";
+            }
+            return Page();
         }
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(long? patientId)
         {
             if (!ModelState.IsValid)
             {
@@ -47,12 +68,33 @@ namespace Clinic.Pages
                 return Page();
             }
 
-            var patient = _mapper.Map<Patient>(Patient);
+            if (patientId.HasValue)
+            {
+                Patient.Id = patientId.Value;
+               var result = await _patientService.UpdatePatient(Patient);
+                if (result != null)
+                {
+                    return RedirectToPage("./AddPatient", new { patientId = result.Id });
+                }
+                else
+                {
+                    return Page();
+                }
+            }
 
-            _context.Patients.Add(patient);
-            await _context.SaveChangesAsync();
+            else
+            {
+                var result = await _patientService.AddPatient(Patient);
 
-            return RedirectToPage("./PatientView");
+                if (result != null)
+                {
+                    return RedirectToPage("./PatientView");
+                }
+                else
+                {
+                    return Page();
+                }
+            }  
         }
 
     }

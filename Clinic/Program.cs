@@ -1,5 +1,7 @@
 ﻿using Clinic.Data;
 using Clinic.Models.Identity;
+using Clinic.Services;
+using Clinic.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +17,11 @@ builder.Services.AddDefaultIdentity<User>()
 
 builder.Services.AddRazorPages();
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IDoctorService, DoctorService>();
+builder.Services.AddScoped<IAdmissionService, AdmissionService>();
+builder.Services.AddScoped<ICodeService, CodeService>();
 
 var app = builder.Build();
 

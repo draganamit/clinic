@@ -27,11 +27,16 @@
                     <td>@doctor.LastName</td>
                     <td>@doctor.JMBG</td>
                     <td>@doctor.DateOfBirth.ToString("d")</td>
-                    <td>@doctor.Gender.Name</td>
+                    <td>@doctor.GenderName</td>
                     <td>@doctor.Address</td>
                     <td>@doctor.PhoneNumber</td>
-                    <td>@doctor.Title.Name</td>
+                    <td>@doctor.GenderName</td>
                     <td>@doctor.DoctorCode</td>
+                    <td>
+                        <form method="get" asp-page="AddDoctor" asp-route-doctorId="@doctor.Id" style="display:inline;">
+                            <button type="submit" class="btn btn-primary">Izmjeni</button>
+                        </form>
+                    </td>
 
                 </tr>
             }

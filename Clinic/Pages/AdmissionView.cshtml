@@ -10,6 +10,7 @@
             <th>Pacijent</th>
             <th>Nadležni doktor</th>
             <th>Hitan prijem</th>
+            <th>Akcije</th>
         </tr>
     </thead>
     <tbody>
@@ -19,9 +20,20 @@
             {
                 <tr>
                     <td>@admissions.AdmissionDate</td>
-                    <td>@(admissions.Patient.FirstName + " " + admissions.Patient.LastName)</td>
-                    <td>@(admissions.Doctor.FirstName + " " + @admissions.Doctor.LastName)</td>
+                    <td>@(admissions.PatientName)</td>
+                    <td>@(admissions.DoctorName)</td>
                     <td>@admissions.IsEmergency</td>
+                    <td>
+                        <form method="get" asp-page="AddAdmission" asp-route-admissionId="@admissions.Id" style="display:inline;">
+                            <button type="submit" class="btn btn-primary">Izmjeni</button>
+                        </form>
+                        <form method="post" asp-page-handler="SoftDelete" asp-route-admissionId="@admissions.Id" style="display:inline;">
+                            <button type="submit" class="btn btn-warning">Otkaži</button>
+                        </form>
+                        <form method="post" asp-page-handler="Delete" asp-route-admissionId="@admissions.Id" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Obriši</button>
+                        </form>
+                </td>
                 </tr>
             }
         }

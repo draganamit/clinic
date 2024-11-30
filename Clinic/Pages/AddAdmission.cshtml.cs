@@ -7,18 +7,24 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Clinic.Enums;
+using Clinic.Services.Interfaces;
+using Clinic.Services;
 
 namespace Clinic.Pages
 {
     public class AddAdmissionModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IAdmissionService _admissionService;
+        private readonly IPatientService _patientService;
+        private readonly IDoctorService _doctorService;
 
-        public AddAdmissionModel(ApplicationDbContext context, IMapper mapper)
+        public AddAdmissionModel(IMapper mapper, IAdmissionService admissionService, IPatientService patientService, IDoctorService doctorService)
         {
-            _context = context;
             _mapper = mapper;
+            _admissionService = admissionService;
+            _patientService = patientService;
+            _doctorService = doctorService;
         }
 
         public IList<SelectListItem> Patients { get; set; }
@@ -28,26 +34,37 @@ namespace Clinic.Pages
         [BindProperty]
         public AddAdmissionDto Admission { get; set; }
 
-        public async Task OnGetAsync()
-        {
-            Patients = await _context.Patients
-                .Select(p => new SelectListItem
-                {
-                    Value = p.Id.ToString(),
-                    Text = String.Concat(p.FirstName, " ", p.LastName)
-                })
-                .ToListAsync();
+        public string PageTitle { get; set; }
+        public string ButtonText { get; set; }
 
-            Doctors = await _context.Doctors
-                .Where(d => d.TitleId == (long)TitleEnum.Specialist)
-                .Select(d => new SelectListItem
+        public async Task<IActionResult> OnGetAsync(long? admissionId)
+        {
+            Patients = await _patientService.GetListPatients();
+
+            Doctors = await _doctorService.GetListDoctors();
+
+            if (admissionId.HasValue)
+            {
+                GetAdmissionByIdDto admission = await _admissionService.GetAdmissionById(admissionId.Value);
+
+                if (admission == null)
                 {
-                    Value = d.Id.ToString(),
-                    Text = String.Concat(d.FirstName, " ", d.LastName)
-                })
-                .ToListAsync();
+
+                    return NotFound();
+                }
+
+                Admission = _mapper.Map<AddAdmissionDto>(admission);
+                PageTitle = "Izmjeni prijem";
+                ButtonText = "Izmjeni";
+            }
+            else
+            {
+                PageTitle = "Dodaj prijem";
+                ButtonText = "Dodaj";
+            }
+            return Page();
         }
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(long? admissionId)
         {
             if (!ModelState.IsValid)
             {
@@ -59,12 +76,33 @@ namespace Clinic.Pages
                 return Page();
             }
 
-            var admission = _mapper.Map<Admission>(Admission);
+            if (admissionId.HasValue)
+            {
+                Admission.Id = admissionId.Value;
+                var result = await _admissionService.UpdateAdmission(Admission);
+                if (result != null)
+                {
+                    return RedirectToPage("./AddAdmission", new { admissionId = result.Id });
+                }
+                else
+                {
+                    return Page();
+                }
+            }
 
-            _context.Admissions.Add(admission);
-            await _context.SaveChangesAsync();
+            else
+            {
+                var result = await _admissionService.AddAdmission(Admission);
 
-            return RedirectToPage("./AdmissionView");
+                if (result != null)
+                {
+                    return RedirectToPage("./AdmissionView");
+                }
+                else
+                {
+                    return Page();
+                }
+            }
         }
     }
 }

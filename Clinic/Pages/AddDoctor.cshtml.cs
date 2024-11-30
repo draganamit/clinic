@@ -6,45 +6,59 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Clinic.Services.Interfaces;
+using Clinic.Services;
 
 namespace Clinic.Pages
 {
     public class AddDoctorModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ICodeService _codeService;
+        private readonly IDoctorService _dctorService;
 
-        public AddDoctorModel(ApplicationDbContext context, IMapper mapper)
+        public AddDoctorModel(IMapper mapper, ICodeService codeService, IDoctorService doctorService)
         {
-            _context = context;
             _mapper = mapper;
+            _codeService = codeService;
+            _dctorService = doctorService;
         }
         public IList<SelectListItem> Genders { get; set; }
         public IList<SelectListItem> Titles { get; set; }
 
-
         [BindProperty]
         public AddDoctorDto Doctor { get; set; }
 
-        public async Task OnGetAsync()
-        {
-            Genders = await _context.Genders
-                .Select(g => new SelectListItem
-                {
-                    Value = g.Id.ToString(),
-                    Text = g.Name
-                })
-                .ToListAsync();
+        public string PageTitle { get; set; }
+        public string ButtonText { get; set; }
 
-            Titles = await _context.Titles
-                .Select(g => new SelectListItem
+        public async Task<IActionResult> OnGetAsync(long? doctorId)
+        {
+            Genders = await _codeService.GetGenders();
+
+            Titles = await _codeService.GetTitles();
+
+            if (doctorId.HasValue)
+            {
+                GetDoctorByIdDto doctor = await _dctorService.GetDoctorById(doctorId.Value);
+
+                if (doctor == null)
                 {
-                    Value = g.Id.ToString(),
-                    Text = g.Name
-                })
-                .ToListAsync();
+                    return NotFound();
+                }
+
+                Doctor = _mapper.Map<AddDoctorDto>(doctor);
+                PageTitle = "Izmjeni ljekara";
+                ButtonText = "Izmjeni";
+            }
+            else
+            {
+                PageTitle = "Dodaj ljekara";
+                ButtonText = "Dodaj";
+            }
+            return Page();
         }
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(long? doctorId)
         {
             if (!ModelState.IsValid)
             {
@@ -55,14 +69,33 @@ namespace Clinic.Pages
 
                 return Page();
             }
+            if (doctorId.HasValue)
+            {
+                Doctor.Id = doctorId.Value;
+                var result = await _dctorService.UpdateDoctor(Doctor);
+                if (result != null)
+                {
+                    return RedirectToPage("./AddDoctor", new { doctorId = result.Id });
+                }
+                else
+                {
+                    return Page();
+                }
+            }
 
-            var doctor = _mapper.Map<Doctor>(Doctor);
+            else
+            {
+                var result = await _dctorService.AddDoctor(Doctor);
 
-            _context.Doctors.Add(doctor);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./DoctorView");
+                if (result != null)
+                {
+                    return RedirectToPage("./DoctorView");
+                }
+                else
+                {
+                    return Page();
+                }
+            }
         }
-
     }
 }

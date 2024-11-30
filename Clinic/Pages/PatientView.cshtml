@@ -13,6 +13,7 @@
             <th>Pol</th>
             <th>Adresa</th>
             <th>Broj telefona</th>
+            <th>Akcije</th>
         </tr>
     </thead>
     <tbody>
@@ -25,9 +26,14 @@
                     <td>@patient.LastName</td>
                     <td>@patient.JMBG</td>
                     <td>@patient.DateOfBirth.ToString("d")</td>
-                    <td>@patient.Gender.Name</td>
+                    <td>@patient.GenderName</td>
                     <td>@patient.Address</td>
                     <td>@patient.PhoneNumber</td>
+                    <td>
+                        <form method="get" asp-page="AddPatient" asp-route-patientId="@patient.Id" style="display:inline;">
+                            <button type="submit" class="btn btn-primary">Izmjeni</button>
+                        </form>
+                    </td> 
                 </tr>
             }
         }

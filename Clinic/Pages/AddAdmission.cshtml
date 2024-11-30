@@ -1,8 +1,8 @@
-﻿@page
+﻿@page "{admissionId?}"
 @model Clinic.Pages.AddAdmissionModel
 @{
 }
-<h1>Dodavanje prijema</h1>
+<h1>@Model.PageTitle</h1>
 <form method="post">
     <div class="form-group">
         <label for="AdmissionDate" class="control-label">Datum i vrijeme prijema</label>
@@ -28,5 +28,5 @@
             <input type="checkbox" asp-for="Admission.IsEmergency" /> Hitan prijem
         </label>
     </div>
-    <button type="submit" class="btn btn-primary">Dodaj prijem</button>
+    <button type="submit" class="btn btn-primary">@Model.ButtonText</button>
 </form>

@@ -1,8 +1,8 @@
-﻿@page
+﻿@page "{doctorId?}"
 @model Clinic.Pages.AddDoctorModel
 @{
 }
-<h1>Dodavanje ljekara</h1>
+<h1>@Model.PageTitle</h1>
 <form method="post">
     <div class="form-group">
         <label for="FirstName" class="control-label">Ime</label>
@@ -42,16 +42,11 @@
         <span asp-validation-for="Doctor.PhoneNumber" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="DoctorCode" class="control-label">Šifra doktora</label>
-        <input asp-for="Doctor.DoctorCode" name="Doctor.DoctorCode" class="form-control" />
-        <span asp-validation-for="Doctor.DoctorCode" class="text-danger"></span>
-    </div>
-    <div class="form-group">
         <label class="control-label" for="Title">Titula</label>
         <select asp-for="Doctor.TitleId" class="form-control" asp-items="Model.Titles">
             <option value="">Izaberite titulu</option>
         </select>
         <span asp-validation-for="Doctor.TitleId" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Dodaj ljekara</button>
+    <button type="submit" class="btn btn-primary">@Model.ButtonText</button>
 </form>

@@ -7,7 +7,6 @@
         public long PatientId { get; set; }
         public long DoctorId { get; set; }
         public bool IsEmergency { get; set; }
-
-        //public ICollection<MedicalReport> MedicalReports { get; set; }
+        public ICollection<MedicalReport> MedicalReports { get; set; }
     }
 }

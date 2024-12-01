@@ -1,8 +1,13 @@
-﻿@page
-@model Clinic.Pages.DoctorViewModel
+﻿
+@model Clinic.Models.MedicalReport
 @{
 }
-<form method="post" asp-antiforgery="true">
-    @Html.AntiForgeryToken()
-    <label>Nalazi</label>
-</form>
+<h1>Nalazi</h1>
+<div class="card">
+    <div class="card-header">
+        @Model.CreatedAt
+    </div>
+    <div class="card-body">
+        <p>@Model.ReportDescription</p>
+    </div>
+</div>

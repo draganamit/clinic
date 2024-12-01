@@ -1,9 +1,11 @@
 ﻿@page "{admissionId?}"
+@using Clinic.Models
 @model Clinic.Pages.AddAdmissionModel
 @{
 }
 <h1>@Model.PageTitle</h1>
 <form method="post">
+    <input hidden id="admissionId" asp-for="Admission.Id" />
     <div class="form-group">
         <label for="AdmissionDate" class="control-label">Datum i vrijeme prijema</label>
         <input asp-for="Admission.AdmissionDate" name="Admission.AdmissionDate" type="date" class="form-control" />
@@ -27,6 +29,34 @@
         <label>
             <input type="checkbox" asp-for="Admission.IsEmergency" /> Hitan prijem
         </label>
+    </div>
+    <div id="reportsContainer" class="form-group">
+
+        @await Html.PartialAsync("Shared/ReportModal", new MedicalReport
+   {
+       AdmissionId = (long)ViewData["AdmissionId"],
+       CreatedAt = DateTime.Now,
+       Id = 0,
+       ReportDescription = ""
+   })
+
+        <h2>Nalzi</h2>
+        <button type="button" class="btn btn-primary" onclick="openModal(0)">Dojaj nalaz</button>
+        <div id="reportsList">
+
+        @if (Model.Admission?.MedicalReports != null && Model.Admission.MedicalReports.Any())
+        {
+            @foreach (var report in Model.Admission.MedicalReports)
+            {
+                @await Html.PartialAsync("Shared/_MedicalReportPartial", report)
+            }
+        }
+        else
+        {
+            <p>Trenutno nema nalaza za ovaj prijem.</p>
+        }
+    </div>
+
     </div>
     <button type="submit" class="btn btn-primary">@Model.ButtonText</button>
 </form>

@@ -18,18 +18,25 @@ namespace Clinic.Pages
         private readonly IAdmissionService _admissionService;
         private readonly IPatientService _patientService;
         private readonly IDoctorService _doctorService;
+        private readonly IMedicalReportService _medicalReportService;
 
-        public AddAdmissionModel(IMapper mapper, IAdmissionService admissionService, IPatientService patientService, IDoctorService doctorService)
+        public AddAdmissionModel
+            (
+                IMapper mapper,
+                IAdmissionService admissionService,
+                IPatientService patientService, IDoctorService doctorService,
+                IMedicalReportService medicalReportService
+            )
         {
             _mapper = mapper;
             _admissionService = admissionService;
             _patientService = patientService;
             _doctorService = doctorService;
+            _medicalReportService = medicalReportService;
         }
 
         public IList<SelectListItem> Patients { get; set; }
         public IList<SelectListItem> Doctors { get; set; }
-
 
         [BindProperty]
         public AddAdmissionDto Admission { get; set; }
@@ -45,12 +52,17 @@ namespace Clinic.Pages
 
             if (admissionId.HasValue)
             {
+                ViewData["AdmissionId"] = admissionId.Value;
                 GetAdmissionByIdDto admission = await _admissionService.GetAdmissionById(admissionId.Value);
 
                 if (admission == null)
                 {
-
-                    return NotFound();
+                    throw new Exception("Admission podaci nisu prona?eni.");
+                    //return NotFound();
+                }
+                if (admission.MedicalReports == null)
+                {
+                    admission.MedicalReports = new List<MedicalReport>();
                 }
 
                 Admission = _mapper.Map<AddAdmissionDto>(admission);
@@ -64,6 +76,7 @@ namespace Clinic.Pages
             }
             return Page();
         }
+
         public async Task<IActionResult> OnPostAsync(long? admissionId)
         {
             if (!ModelState.IsValid)
@@ -89,7 +102,6 @@ namespace Clinic.Pages
                     return Page();
                 }
             }
-
             else
             {
                 var result = await _admissionService.AddAdmission(Admission);
@@ -103,6 +115,30 @@ namespace Clinic.Pages
                     return Page();
                 }
             }
+        }
+
+        public async Task<IActionResult> OnPostAddMedicalReport(long admissionId, [FromBody] MedicallReportDto medicallReport)
+        {
+            MedicallReportDto report = medicallReport.Id > 0 ?
+            await _medicalReportService.UpdateMedicalReport(medicallReport) :
+            await _medicalReportService.AddMedicalReport(medicallReport);
+
+            return new JsonResult(new
+            {
+                success = true,
+                updatedReport = report
+            });
+        }
+
+        public async Task<IActionResult> OnPostRemoveMedicalReport(long admissionId, long id)
+        {
+            long report = await _medicalReportService.DeleteMedicalReport(id);
+
+            return new JsonResult(new
+            {
+                success = true,
+                id = id
+            });
         }
     }
 }

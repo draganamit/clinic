@@ -1,0 +1,155 @@
+﻿@model Clinic.Models.MedicalReport
+<form id="addReportForm">
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportLabel">
+                        @if (@Model.Id > 0)
+                        {
+                            <p>Izmjena nalaza</p>
+                        }
+                        else
+                        {
+
+                            <p>Dodavanje nalaza</p>
+                        }
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="resetModel()"></button>
+                </div>
+                <div class="modal-body">
+                    <input id="reportId" hidden value="@Model.Id" />
+                    <input id="admissionId" hidden value="@Model.AdmissionId" />
+                    <p><strong>Datum:</strong> @Model.CreatedAt.ToString("dd/MM/yyyy")</p>
+                    <input id="reportCreatedAt" type="date" class="form-control" />
+                    <p><strong>Opis nalaza:</strong> @Model.ReportDescription</p>
+                    <input id="reportDescription" type="text" class="form-control" />
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="resetModel()">Zatvori</button>
+                    <button id="addReportButton" type="button" onclick="submitMedicalReport()" class="btn btn-primary">Sačuvaj</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    var reportModal;
+    document.addEventListener('DOMContentLoaded', function () {
+         myModal = new bootstrap.Modal(document.getElementById("reportModal", {}));
+
+        var modalElement = document.getElementById('reportModal');
+        modalElement.addEventListener('hidden.bs.modal', function (event) {
+            resetModel();
+        });
+    
+    })
+
+    function openModal() {
+        if (myModal) {
+            myModal.show();
+        }
+    }
+
+    function hideModal() {
+        if (myModal) {
+            myModal.hide();
+            resetModel();
+        } 
+    }
+
+    async function submitMedicalReport() {
+  
+
+        const reportModel = getModel()
+        const response = await fetch(`/AddAdmission/${reportModel.admissionId}?handler=AddMedicalReport`, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+                },
+                body: JSON.stringify(reportModel),
+            });
+
+            const data = await response.json();
+            if (data.success) {
+            if (reportModel.id > 0) {
+                updateCardModel(data.updatedReport)
+                } else {
+                const reportsList = document.getElementById('reportsList');
+                const newElement = newReportListElement();
+                reportsList.innerHTML = `${newElement}${reportsList.innerHTML}`;
+            }
+            hideModal();
+
+            } else {
+                alert('Došlo je do greške prilikom dodavanja nalaza.');
+            }
+        
+        }
+
+    function getModel() {
+        const reportModal = document.getElementById("reportModal");
+        const id = reportModal.querySelector('#reportId').value;
+        const admissionId = reportModal.querySelector('#admissionId').value;
+        const reportDescription = reportModal.querySelector('#reportDescription').value;
+        const createdAt = reportModal.querySelector('#reportCreatedAt').value;
+
+        return {
+            id,
+            admissionId,
+            reportDescription,
+            createdAt
+        }
+    }
+
+
+    function resetModel() {
+        const reportModal = document.getElementById("reportModal");
+        const id = reportModal.querySelector('#reportId').value = 0 ;
+        const reportDescription = reportModal.querySelector('#reportDescription').value = "";
+        const createdAt = reportModal.querySelector('#reportCreatedAt').value = null;
+
+    }
+
+    function updateCardModel(updatedReport) {
+        const date = new Date(updatedReport.createdAt)
+
+        const formattedDate = date.toLocaleString('bs-BA', {
+            day: '2-digit', 
+            month: '2-digit', 
+            year: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit', 
+            hour12: false 
+        });
+
+        const reportCard = document.getElementById(`card_${updatedReport.id}`);
+        reportCard.querySelector(` .card-header`).innerHTML = formattedDate;
+        reportCard.querySelector(` .card-body>p`).innerHTML = updatedReport.reportDescription
+        reportCard.dataset.admissionid = updatedReport.admissionId;
+        reportCard.dataset.reportId = updatedReport.id;
+       
+    }
+
+
+    function newReportListElement(updatedReport) {
+        return `<div class="card">
+                    <div>
+                        <button type="button" class="btn btn-primary" onclick="openModal(${updatedReport.id})">Izmjeni</button>
+                        <button type="button" class="btn btn-primary">Obriši nalaz</button>
+                    </div>
+                    <div class="card-header">
+                        ${updatedReport.createdAt}
+                    </div>
+                    <div class="card-body">
+                        <p> ${updatedReport.reportDescription}</p>
+                    </div>
+                    </div>`;
+
+    }
+</script>

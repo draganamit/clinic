@@ -21,6 +21,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IAdmissionService, AdmissionService>();
+builder.Services.AddScoped<IMedicalReportService, MedicalReportService>();
 builder.Services.AddScoped<ICodeService, CodeService>();
 
 var app = builder.Build();
@@ -33,7 +34,6 @@ using (var scope = app.Services.CreateScope())
 
 using (var scope = app.Services.CreateScope())
 {
-
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
     ApplicationDbContext.Seed(userManager).Wait();
 }

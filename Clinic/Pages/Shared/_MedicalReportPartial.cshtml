@@ -1,0 +1,60 @@
+﻿@model Clinic.Models.MedicalReport
+<div class="card" id="card_@Model.Id" data-admissionid="@Model.AdmissionId" data-reportid="@Model.Id">
+    <div>
+        <button type="button" class="btn btn-primary" onclick="editMediaclReport(@Model.Id)">Izmjeni</button>
+        <button type="button" class="btn btn-primary" onclick="deleteReport(@Model.Id, @Model.AdmissionId)">Obriši nalaz</button>
+    </div>
+    <div class="card-header">
+        @Model.CreatedAt
+    </div>
+    <div class="card-body">
+        <p>@Model.ReportDescription</p>
+    </div>
+</div>
+
+<script>
+
+    function editMediaclReport(id) { 
+
+        const reportCard = document.getElementById(`card_${id}`);
+        
+
+        const createdAt = reportCard.querySelector(` .card-header`).innerHTML;
+        const reportDescription = reportCard.querySelector(` .card-body>p`).innerHTML;
+        const admissionId = reportCard.dataset.admissionid;
+        const reportId = reportCard.dataset.reportid;
+
+        openModal();
+
+        const modal = document.getElementById('reportModal')
+
+        console.log('reportCard.dataset', reportCard.dataset)
+        const date = new Date(createdAt);
+        const formattedDate = date.toISOString().split('T')[0];
+
+        modal.querySelector('#reportId').value = reportId;
+        modal.querySelector('#admissionId').value = admissionId;
+        modal.querySelector('#reportDescription').value = reportDescription;
+        modal.querySelector('#reportCreatedAt').value = formattedDate;
+
+    }
+
+    async function deleteReport(reportId, admissionId) {
+        const response = await fetch(`/AddAdmission/${admissionId}?handler=RemoveMedicalReport&id=${reportId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                "RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()
+            }
+        });
+
+        if (response.ok) {
+            const reportElement = document.querySelector(`#card_${reportId}`);
+            if (reportElement) {
+                reportElement.remove();
+            }
+        } else {
+            alert('Došlo je do greške prilikom brisanja nalaza.');
+        }
+    }
+</script>

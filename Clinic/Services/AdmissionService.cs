@@ -63,6 +63,7 @@ namespace Clinic.Services
             Admission admission = await _context.Admissions
                                                 .Include(a => a.Patient)
                                                 .Include(a => a.Doctor)
+                                                .Include(a => a.MedicalReports)
                                                 .Where(d => d.Id == admissionId)
                                                 .FirstOrDefaultAsync() ??
                                                 throw new Exception("Prijem nije pronadjen");
@@ -75,6 +76,7 @@ namespace Clinic.Services
             List<Admission> admissions = await _context.Admissions
                                                        .Include(a => a.Patient)
                                                        .Include(a => a.Doctor)
+                                                       .Include(a => a.MedicalReports)
                                                        .Where(a => !a.IsCancelled)
                                                        .ToListAsync();
             return _mapper.Map<List<GetAdmissionDto>>(admissions);
@@ -93,6 +95,7 @@ namespace Clinic.Services
             admission.DoctorId = updateAdmission.DoctorId;
             admission.PatientId = updateAdmission.PatientId;
             admission.IsEmergency = updateAdmission.IsEmergency;
+            admission.MedicalReports = updateAdmission.MedicalReports;
 
             _context.Admissions.Update(admission);
             await _context.SaveChangesAsync();

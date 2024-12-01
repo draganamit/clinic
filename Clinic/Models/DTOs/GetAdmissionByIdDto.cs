@@ -11,6 +11,6 @@
         public Patient Patient { get; set; }
         public Doctor Doctor { get; set; }
 
-        //public ICollection<MedicalReport> MedicalReports { get; set; }
+        public ICollection<MedicalReport> MedicalReports { get; set; }
     }
 }

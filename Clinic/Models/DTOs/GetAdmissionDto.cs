@@ -8,5 +8,6 @@
         public string PatientName { get; set; }
         public string DoctorName { get; set; }
         public bool IsCancelled { get; set; }
+        public ICollection<MedicalReport> MedicalReports { get; set; }
     }
 }

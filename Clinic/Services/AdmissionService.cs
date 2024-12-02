@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Clinic.Data;
 using Clinic.Models;
 using Clinic.Models.DTOs;
@@ -22,6 +23,14 @@ namespace Clinic.Services
         {
             try
             {
+                addAdmission.AdmissionDate = new DateTime(
+                                               addAdmission.AdmissionDate.Year,
+                                               addAdmission.AdmissionDate.Month,
+                                               addAdmission.AdmissionDate.Day,
+                                               int.Parse(addAdmission.Hours),
+                                               int.Parse(addAdmission.Minutes),
+                                               0
+                                              );
                 Admission admission = _mapper.Map<Admission>(addAdmission);
                 _context.Admissions.Add(admission);
                 await _context.SaveChangesAsync();
@@ -63,12 +72,25 @@ namespace Clinic.Services
             Admission admission = await _context.Admissions
                                                 .Include(a => a.Patient)
                                                 .Include(a => a.Doctor)
-                                                .Include(a => a.MedicalReports)
+                                                .Include(a => a.MedicalReports.OrderByDescending(m => m.Id))
                                                 .Where(d => d.Id == admissionId)
                                                 .FirstOrDefaultAsync() ??
                                                 throw new Exception("Prijem nije pronadjen");
 
             return _mapper.Map<GetAdmissionByIdDto>(admission);
+        }
+
+        public async Task<GetAdmissionDto> GetAdmissionDetailsById(long admissionId)
+        {
+            Admission admission = await _context.Admissions
+                                                .Include(a => a.Patient)
+                                                .Include(a => a.Doctor)
+                                                .Include(a => a.MedicalReports.OrderByDescending(m => m.Id))
+                                                .Where(d => d.Id == admissionId)
+                                                .FirstOrDefaultAsync() ??
+                                                throw new Exception("Prijem nije pronadjen");
+
+            return _mapper.Map<GetAdmissionDto>(admission);
         }
 
         public async Task<List<GetAdmissionDto>> GetAllAdmissions()
@@ -80,6 +102,34 @@ namespace Clinic.Services
                                                        .Where(a => !a.IsCancelled)
                                                        .ToListAsync();
             return _mapper.Map<List<GetAdmissionDto>>(admissions);
+        }
+
+        public async Task<List<GetAdmissionDto>> SearchAdmissions(DateTime? startDate, DateTime? endDate)
+        {
+            var admissionsQuery = _context.Admissions.AsQueryable();
+
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                admissionsQuery = admissionsQuery.Where(a => a.AdmissionDate >= startDate.Value && a.AdmissionDate <= endDate.Value)
+                                                 .Where(a => !a.IsCancelled)
+                                                 .OrderByDescending(a => a.AdmissionDate);
+            }
+            else if (startDate.HasValue)
+            {
+                admissionsQuery = admissionsQuery.Where(a => a.AdmissionDate >= startDate.Value)
+                                                 .Where(a => !a.IsCancelled)
+                                                 .OrderByDescending(a => a.AdmissionDate);
+            }
+            else if (endDate.HasValue)
+            {
+                admissionsQuery = admissionsQuery.Where(a => a.AdmissionDate <= endDate.Value)
+                                                 .Where(a => !a.IsCancelled)
+                                                 .OrderByDescending(a => a.AdmissionDate);
+            }
+
+            List<GetAdmissionDto> admissionsList = await admissionsQuery.ProjectTo<GetAdmissionDto>(_mapper.ConfigurationProvider).ToListAsync();
+
+            return admissionsList;
         }
 
         public async Task<GetAdmissionByIdDto> UpdateAdmission(AddAdmissionDto updateAdmission)
@@ -95,7 +145,7 @@ namespace Clinic.Services
             admission.DoctorId = updateAdmission.DoctorId;
             admission.PatientId = updateAdmission.PatientId;
             admission.IsEmergency = updateAdmission.IsEmergency;
-            admission.MedicalReports = updateAdmission.MedicalReports;
+            admission.MedicalReports = _mapper.Map<ICollection<MedicalReport>>(updateAdmission.MedicalReports);
 
             _context.Admissions.Update(admission);
             await _context.SaveChangesAsync();

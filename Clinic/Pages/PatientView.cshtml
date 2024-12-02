@@ -2,47 +2,51 @@
 @model Clinic.Pages.PatientViewModel
 @{
 }
-<a class="btn btn-primary" href="@Url.Page("/AddPatient")">Dodaj pacijenta</a>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Ime</th>
-            <th>Prezime</th>
-            <th>JMBG</th>
-            <th>Datum rođenja</th>
-            <th>Pol</th>
-            <th>Adresa</th>
-            <th>Broj telefona</th>
-            <th>Akcije</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.Patients != null && Model.Patients.Any())
-        {
-            @foreach (var patient in Model.Patients)
+<div class="w-100 d-flex justify-content-end p-4">
+    <a class="custom-button text-decoration-none d-block text-center" href="@Url.Page("/AddPatient")">Dodaj pacijenta</a>
+</div>
+<div class="pb-4 px-4">
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>JMBG</th>
+                <th>Datum rođenja</th>
+                <th>Pol</th>
+                <th>Adresa</th>
+                <th>Broj telefona</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Patients != null && Model.Patients.Any())
+            {
+                @foreach (var patient in Model.Patients)
+                {
+                    <tr>
+                        <td>@patient.FirstName</td>
+                        <td>@patient.LastName</td>
+                        <td>@patient.JMBG</td>
+                        <td>@patient.DateOfBirth.ToString("d")</td>
+                        <td>@patient.GenderName</td>
+                        <td>@patient.Address</td>
+                        <td>@patient.PhoneNumber</td>
+                        <td>
+                            <form method="get" asp-page="AddPatient" asp-route-patientId="@patient.Id" style="display:inline;">
+                                <button type="submit" class="custom-button">Izmjeni</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@patient.FirstName</td>
-                    <td>@patient.LastName</td>
-                    <td>@patient.JMBG</td>
-                    <td>@patient.DateOfBirth.ToString("d")</td>
-                    <td>@patient.GenderName</td>
-                    <td>@patient.Address</td>
-                    <td>@patient.PhoneNumber</td>
-                    <td>
-                        <form method="get" asp-page="AddPatient" asp-route-patientId="@patient.Id" style="display:inline;">
-                            <button type="submit" class="btn btn-primary">Izmjeni</button>
-                        </form>
-                    </td> 
+                    <td colspan="3">Nema podataka o pacijentima.</td>
                 </tr>
             }
-        }
-        else
-        {
-            <tr>
-                <td colspan="3">Nema podataka o pacijentima.</td>
-            </tr>
-        }
-       
-    </tbody>
-</table>
+
+        </tbody>
+    </table>
+</div>

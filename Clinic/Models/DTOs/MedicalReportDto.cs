@@ -1,14 +1,15 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Clinic.Models.DTOs
+﻿namespace Clinic.Models.DTOs
 {
-    public class MedicallReportDto
+    public class MedicalReportDto
     {
         public long Id { get; set; }
         public long AdmissionId { get; set; }
-        [JsonPropertyName("reportDescription")]
+
         public string ReportDescription { get; set; }
-        [JsonPropertyName("createdAt")]
+
         public DateTime CreatedAt { get; set; }
+
+        public int Hours { get; set; }
+        public int Minutes { get; set; }
     }
 }

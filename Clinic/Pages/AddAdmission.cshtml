@@ -1,50 +1,76 @@
 ﻿@page "{admissionId?}"
-@using Clinic.Models
+@using Clinic.Models.DTOs
 @model Clinic.Pages.AddAdmissionModel
 @{
 }
-<h1>@Model.PageTitle</h1>
-<form method="post">
-    <input hidden id="admissionId" asp-for="Admission.Id" />
-    <div class="form-group">
-        <label for="AdmissionDate" class="control-label">Datum i vrijeme prijema</label>
-        <input asp-for="Admission.AdmissionDate" name="Admission.AdmissionDate" type="date" class="form-control" />
-        <span asp-validation-for="Admission.AdmissionDate" class="text-danger"></span>
+<h4 class="form-title-label">@Model.PageTitle</h4>
+<form method="post" class="form-container custom-form">
+    <input hidden asp-for="Admission.Id" name="Admission.Id" value="@ViewData["AdmissionId"]" />
+    <div class="form-row">
+        <div class="form-group">
+            <label for="AdmissionDate" class="control-label mb-2">Datum prijema</label>
+            <input asp-for="Admission.AdmissionDate" name="Admission.AdmissionDate" type="date" class="form-control" />
+            <span asp-validation-for="Admission.AdmissionDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <p class="control-label mb-2">Vrijeme prijema</p>
+            <div class="form-row">
+                <input asp-for="Admission.Hours" name="Admission.Hours" type="text" class="form-control form-group" />
+                <span asp-validation-for="Admission.Hours" class="text-danger"></span>
+                <label>:</label>
+                <input asp-for="Admission.Minutes" name="Admission.Minutes" type="text" class="form-control form-group" />
+                <span asp-validation-for="Admission.Minutes" class="text-danger"></span>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label class="control-label" for="Gender">Pacijent</label>
-        <select asp-for="Admission.PatientId" class="form-control" asp-items="Model.Patients">
-            <option value="">Izaberite pacijenta</option>
-        </select>
-        <span asp-validation-for="Admission.PatientId" class="text-danger"></span>
+    <div class="form-row">
+        <div class="form-group">
+            <label class="control-label mb-2" for="Gender">Pacijent</label>
+            <select asp-for="Admission.PatientId" class="form-control" asp-items="Model.Patients">
+                <option value="">Izaberite pacijenta</option>
+            </select>
+            <span asp-validation-for="Admission.PatientId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label mb-2" for="Title">Nadležni ljekar</label>
+            <select asp-for="Admission.DoctorId" class="form-control" asp-items="Model.Doctors">
+                <option value="">Izaberite ljekara</option>
+            </select>
+            <span asp-validation-for="Admission.DoctorId" class="text-danger"></span>
+        </div>
     </div>
-    <div class="form-group">
-        <label class="control-label" for="Title">Nadležni ljekar</label>
-        <select asp-for="Admission.DoctorId" class="form-control" asp-items="Model.Doctors">
-            <option value="">Izaberite ljekara</option>
-        </select>
-        <span asp-validation-for="Admission.DoctorId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
+    
+    <div class="form-row">
         <label>
             <input type="checkbox" asp-for="Admission.IsEmergency" /> Hitan prijem
         </label>
     </div>
-    <div id="reportsContainer" class="form-group">
 
-        @await Html.PartialAsync("Shared/ReportModal", new MedicalReport
-   {
-       AdmissionId = (long)ViewData["AdmissionId"],
-       CreatedAt = DateTime.Now,
-       Id = 0,
-       ReportDescription = ""
-   })
+    <div class="d-flex  justify-content-end">
+        <button type="submit" class="custom-button">Sačuvaj</button>
+    </div>
+
+@* 
+    @if (Model.Admission !=null && Model.Admission.Id > 0)
+    {
+    <div id="reportsContainer" class="form-group">
+        <div id="modalContainer">
+            @await Html.PartialAsync("Shared/ReportModal", new MedicallReportDto
+
+            {
+               AdmissionId = (long)ViewData["AdmissionId"],
+               CreatedAt = DateTime.Now,
+               Id = 0,
+               ReportDescription = ""
+            })
+        </div>
+
+       
 
         <h2>Nalzi</h2>
         <button type="button" class="btn btn-primary" onclick="openModal(0)">Dojaj nalaz</button>
         <div id="reportsList">
-
-        @if (Model.Admission?.MedicalReports != null && Model.Admission.MedicalReports.Any())
+            @if (Model.Admission?.MedicalReports != null && Model.Admission.MedicalReports.Any())
         {
             @foreach (var report in Model.Admission.MedicalReports)
             {
@@ -58,5 +84,6 @@
     </div>
 
     </div>
-    <button type="submit" class="btn btn-primary">@Model.ButtonText</button>
+    }
+    *@
 </form>

@@ -13,6 +13,14 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\draga\\source\\repos\\draganamit\\clinic\\Clinic\\wwwroot\\js\\ajax.js",
+      "PackagePath": "staticwebassets\\js\\ajax.js"
+    },
+    {
+      "Id": "C:\\Users\\draga\\source\\repos\\draganamit\\clinic\\Clinic\\wwwroot\\js\\medicalReport.js",
+      "PackagePath": "staticwebassets\\js\\medicalReport.js"
+    },
+    {
       "Id": "C:\\Users\\draga\\source\\repos\\draganamit\\clinic\\Clinic\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

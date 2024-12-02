@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Clinic.Data;
 using Clinic.Models.DTOs;
 using Clinic.Models;
@@ -57,22 +57,18 @@ namespace Clinic.Pages
 
                 if (admission == null)
                 {
-                    throw new Exception("Admission podaci nisu prona?eni.");
-                    //return NotFound();
-                }
-                if (admission.MedicalReports == null)
-                {
-                    admission.MedicalReports = new List<MedicalReport>();
+                    throw new Exception("Admission podaci nisu pronađeni.");
                 }
 
                 Admission = _mapper.Map<AddAdmissionDto>(admission);
+
                 PageTitle = "Izmjeni prijem";
                 ButtonText = "Izmjeni";
             }
             else
             {
+                ViewData["AdmissionId"] = (long)0;
                 PageTitle = "Dodaj prijem";
-                ButtonText = "Dodaj";
             }
             return Page();
         }
@@ -117,17 +113,13 @@ namespace Clinic.Pages
             }
         }
 
-        public async Task<IActionResult> OnPostAddMedicalReport(long admissionId, [FromBody] MedicallReportDto medicallReport)
+        public async Task<IActionResult> OnPostAddMedicalReport(long admissionId, [FromBody] MedicalReportDto medicallReport)
         {
-            MedicallReportDto report = medicallReport.Id > 0 ?
+            MedicalReportDto report = medicallReport.Id > 0 ?
             await _medicalReportService.UpdateMedicalReport(medicallReport) :
             await _medicalReportService.AddMedicalReport(medicallReport);
 
-            return new JsonResult(new
-            {
-                success = true,
-                updatedReport = report
-            });
+            return Partial("_MedicalReportPartial", report);
         }
 
         public async Task<IActionResult> OnPostRemoveMedicalReport(long admissionId, long id)
@@ -139,6 +131,24 @@ namespace Clinic.Pages
                 success = true,
                 id = id
             });
+        }
+
+        public async Task<IActionResult> OnPostEditReportModal(long admissionId, long reportId)
+        {
+            var report = await _medicalReportService.GetMedicalReportById(reportId);
+
+            if (report == null)
+            {
+                report = new MedicalReportDto
+                {
+                    AdmissionId = (long)ViewData["AdmissionId"],
+                    CreatedAt = DateTime.Now,
+                    Id = 0,
+                    ReportDescription = ""
+                };
+            }
+
+            return Partial("ReportModal", report);
         }
     }
 }

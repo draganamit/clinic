@@ -30,7 +30,6 @@ namespace Clinic.Pages
         public AddDoctorDto Doctor { get; set; }
 
         public string PageTitle { get; set; }
-        public string ButtonText { get; set; }
 
         public async Task<IActionResult> OnGetAsync(long? doctorId)
         {
@@ -49,12 +48,10 @@ namespace Clinic.Pages
 
                 Doctor = _mapper.Map<AddDoctorDto>(doctor);
                 PageTitle = "Izmjeni ljekara";
-                ButtonText = "Izmjeni";
             }
             else
             {
                 PageTitle = "Dodaj ljekara";
-                ButtonText = "Dodaj";
             }
             return Page();
         }
@@ -75,7 +72,7 @@ namespace Clinic.Pages
                 var result = await _dctorService.UpdateDoctor(Doctor);
                 if (result != null)
                 {
-                    return RedirectToPage("./AddDoctor", new { doctorId = result.Id });
+                    return RedirectToPage("./DoctorView");
                 }
                 else
                 {

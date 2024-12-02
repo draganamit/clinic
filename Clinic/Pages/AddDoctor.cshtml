@@ -2,51 +2,62 @@
 @model Clinic.Pages.AddDoctorModel
 @{
 }
-<h1>@Model.PageTitle</h1>
-<form method="post">
-    <div class="form-group">
-        <label for="FirstName" class="control-label">Ime</label>
-        <input asp-for="Doctor.FirstName" name="Doctor.FirstName" class="form-control" />
-        <span asp-validation-for="Doctor.FirstName" class="text-danger"></span>
+<h4 class="form-title-label">@Model.PageTitle</h4>
+<form method="post" class="form-container custom-form">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="FirstName" class="control-label mb-2">Ime</label>
+            <input asp-for="Doctor.FirstName" name="Doctor.FirstName" class="form-control" />
+            <span asp-validation-for="Doctor.FirstName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="LastName" class="control-label mb-2">Prezime</label>
+            <input asp-for="Doctor.LastName" name="Doctor.LastName" class="form-control" />
+            <span asp-validation-for="Doctor.LastName" class="text-danger"></span>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="LastName" class="control-label">Prezime</label>
-        <input asp-for="Doctor.LastName" name="Doctor.LastName" class="form-control" />
-        <span asp-validation-for="Doctor.LastName" class="text-danger"></span>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="JMBG" class="control-label mb-2">JMBG</label>
+            <input asp-for="Doctor.JMBG" name="Doctor.JMBG" class="form-control" maxlength="13" />
+            <span asp-validation-for="Doctor.JMBG" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="DateOfBirth" class="control-label mb-2">Datum rođenja</label>
+            <input asp-for="Doctor.DateOfBirth" name="Doctor.DateOfBirth" type="date" class="form-control" />
+            <span asp-validation-for="Doctor.DateOfBirth" class="text-danger"></span>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="JMBG" class="control-label">JMBG</label>
-        <input asp-for="Doctor.JMBG" name="Doctor.JMBG" class="form-control" maxlength="13" />
-        <span asp-validation-for="Doctor.JMBG" class="text-danger"></span>
+    <div class="form-row">
+        <div class="form-group">
+            <label class="control-label mb-2" for="Gender">Pol</label>
+            <select asp-for="Doctor.GenderId" class="form-control" asp-items="Model.Genders">
+                <option value="">Izaberite pol</option>
+            </select>
+            <span asp-validation-for="Doctor.GenderId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="Address" class="control-label mb-2">Adresa</label>
+            <input asp-for="Doctor.Address" name="Doctor.Address" class="form-control" />
+            <span asp-validation-for="Doctor.Address" class="text-danger"></span>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="DateOfBirth" class="control-label">Datum rođenja</label>
-        <input asp-for="Doctor.DateOfBirth" name="Doctor.DateOfBirth" type="date" class="form-control" />
-        <span asp-validation-for="Doctor.DateOfBirth" class="text-danger"></span>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="PhoneNumber" class="control-label mb-2">Broj telefona</label>
+            <input asp-for="Doctor.PhoneNumber" name="Doctor.PhoneNumber" class="form-control" />
+            <span asp-validation-for="Doctor.PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label mb-2" for="Title">Titula</label>
+            <select asp-for="Doctor.TitleId" class="form-control" asp-items="Model.Titles">
+                <option value="">Izaberite titulu</option>
+            </select>
+            <span asp-validation-for="Doctor.TitleId" class="text-danger"></span>
+        </div>
     </div>
-    <div class="form-group">
-        <label class="control-label" for="Gender">Pol</label>
-        <select asp-for="Doctor.GenderId" class="form-control" asp-items="Model.Genders">
-            <option value="">Izaberite pol</option>
-        </select>
-        <span asp-validation-for="Doctor.GenderId" class="text-danger"></span>
+    
+    <div class="d-flex  justify-content-end">
+        <button type="submit" class="custom-button">Sačuvaj</button>
     </div>
-    <div class="form-group">
-        <label for="Address" class="control-label">Adresa</label>
-        <input asp-for="Doctor.Address" name="Doctor.Address" class="form-control" />
-        <span asp-validation-for="Doctor.Address" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="PhoneNumber" class="control-label">Broj telefona</label>
-        <input asp-for="Doctor.PhoneNumber" name="Doctor.PhoneNumber" class="form-control" />
-        <span asp-validation-for="Doctor.PhoneNumber" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label class="control-label" for="Title">Titula</label>
-        <select asp-for="Doctor.TitleId" class="form-control" asp-items="Model.Titles">
-            <option value="">Izaberite titulu</option>
-        </select>
-        <span asp-validation-for="Doctor.TitleId" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">@Model.ButtonText</button>
 </form>

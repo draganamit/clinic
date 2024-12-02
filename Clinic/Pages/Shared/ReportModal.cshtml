@@ -1,4 +1,4 @@
-﻿@model Clinic.Models.MedicalReport
+﻿@model Clinic.Models.DTOs.MedicalReportDto
 <form id="addReportForm">
     <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -21,8 +21,8 @@
                     <input id="reportId" hidden value="@Model.Id" />
                     <input id="admissionId" hidden value="@Model.AdmissionId" />
                     <p><strong>Datum:</strong> @Model.CreatedAt.ToString("dd/MM/yyyy")</p>
-                    <input id="reportCreatedAt" type="date" class="form-control" />
-                    <p><strong>Opis nalaza:</strong> @Model.ReportDescription</p>
+                    <input id="reportCreatedAt" type="date" class="form-control" asp-for="@Model.CreatedAt" />
+                    <p><strong>Opis nalaza:</strong> @Model.ReportDescription </p>
                     <input id="reportDescription" type="text" class="form-control" />
 
                 </div>
@@ -37,10 +37,11 @@
 
 
 <script>
-    var reportModal;
+    var myModal;
     document.addEventListener('DOMContentLoaded', function () {
          myModal = new bootstrap.Modal(document.getElementById("reportModal", {}));
 
+       
         var modalElement = document.getElementById('reportModal');
         modalElement.addEventListener('hidden.bs.modal', function (event) {
             resetModel();
@@ -62,9 +63,9 @@
     }
 
     async function submitMedicalReport() {
-  
 
         const reportModel = getModel()
+        console.log("ajax poziv SubmitMedicalReport")
         const response = await fetch(`/AddAdmission/${reportModel.admissionId}?handler=AddMedicalReport`, {
                 method: 'POST',
                 headers: {
@@ -74,14 +75,24 @@
                 body: JSON.stringify(reportModel),
             });
 
-            const data = await response.json();
-            if (data.success) {
+           
+            if (response.ok) {
+
+            const data = await response.text();
+
             if (reportModel.id > 0) {
-                updateCardModel(data.updatedReport)
-                } else {
+
+                const t = document.getElementById(`card_${reportModel.id}`);
+                console.log("test", t)
+
+                document.getElementById(`card_${reportModel.id}`).outerHTML = data;
+
+                } 
+            else 
+            {
                 const reportsList = document.getElementById('reportsList');
-                const newElement = newReportListElement();
-                reportsList.innerHTML = `${newElement}${reportsList.innerHTML}`;
+
+                reportsList.innerHTML = `${data}${reportsList.innerHTML}`;
             }
             hideModal();
 
@@ -93,6 +104,7 @@
 
     function getModel() {
         const reportModal = document.getElementById("reportModal");
+
         const id = reportModal.querySelector('#reportId').value;
         const admissionId = reportModal.querySelector('#admissionId').value;
         const reportDescription = reportModal.querySelector('#reportDescription').value;
@@ -108,10 +120,13 @@
 
 
     function resetModel() {
+        const date = new Date();
+        const formattedDate = date.toISOString().split('T')[0];
+
         const reportModal = document.getElementById("reportModal");
         const id = reportModal.querySelector('#reportId').value = 0 ;
         const reportDescription = reportModal.querySelector('#reportDescription').value = "";
-        const createdAt = reportModal.querySelector('#reportCreatedAt').value = null;
+        const createdAt = reportModal.querySelector('#reportCreatedAt').value = formattedDate;
 
     }
 
@@ -130,7 +145,7 @@
 
         const reportCard = document.getElementById(`card_${updatedReport.id}`);
         reportCard.querySelector(` .card-header`).innerHTML = formattedDate;
-        reportCard.querySelector(` .card-body>p`).innerHTML = updatedReport.reportDescription
+        reportCard.querySelector(` .card-body>p`).innerHTML = updatedReport.reportDescriptionId
         reportCard.dataset.admissionid = updatedReport.admissionId;
         reportCard.dataset.reportId = updatedReport.id;
        

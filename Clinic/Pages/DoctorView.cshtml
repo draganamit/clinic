@@ -2,51 +2,58 @@
 @model Clinic.Pages.DoctorViewModel
 @{
 }
-<a class="btn btn-primary" href="@Url.Page("/AddDoctor")">Dodaj doktora</a>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Ime</th>
-            <th>Prezime</th>
-            <th>JMBG</th>
-            <th>Datum rođenja</th>
-            <th>Pol</th>
-            <th>Adresa</th>
-            <th>Broj telefona</th>
-            <th>Titula</th>
-            <th>Šifra ljekara</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.Doctors != null && Model.Doctors.Any())
-        {
-            @foreach (var doctor in Model.Doctors)
+<div class="w-100 d-flex justify-content-end p-4">
+    <a class="custom-button text-decoration-none d-block text-center" href="@Url.Page("/AddDoctor")">Dodaj doktora</a>
+
+</div>
+<div class="pb-4 px-4">
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>JMBG</th>
+                <th>Datum rođenja</th>
+                <th>Pol</th>
+                <th>Adresa</th>
+                <th>Broj telefona</th>
+                <th>Titula</th>
+                <th>Šifra ljekara</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Doctors != null && Model.Doctors.Any())
+            {
+                @foreach (var doctor in Model.Doctors)
+                {
+                    <tr>
+                        <td>@doctor.FirstName</td>
+                        <td>@doctor.LastName</td>
+                        <td>@doctor.JMBG</td>
+                        <td>@doctor.DateOfBirth.ToString("d")</td>
+                        <td>@doctor.GenderName</td>
+                        <td>@doctor.Address</td>
+                        <td>@doctor.PhoneNumber</td>
+                        <td>@doctor.GenderName</td>
+                        <td>@doctor.DoctorCode</td>
+                        <td>
+                            <form method="get" asp-page="AddDoctor" asp-route-doctorId="@doctor.Id" style="display:inline;">
+                                <button type="submit" class="custom-button" style="width: 100% !important;">Izmjeni</button>
+                            </form>
+                        </td>
+
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@doctor.FirstName</td>
-                    <td>@doctor.LastName</td>
-                    <td>@doctor.JMBG</td>
-                    <td>@doctor.DateOfBirth.ToString("d")</td>
-                    <td>@doctor.GenderName</td>
-                    <td>@doctor.Address</td>
-                    <td>@doctor.PhoneNumber</td>
-                    <td>@doctor.GenderName</td>
-                    <td>@doctor.DoctorCode</td>
-                    <td>
-                        <form method="get" asp-page="AddDoctor" asp-route-doctorId="@doctor.Id" style="display:inline;">
-                            <button type="submit" class="btn btn-primary">Izmjeni</button>
-                        </form>
-                    </td>
-
+                    <td colspan="3">Nema podataka o pacijentima.</td>
                 </tr>
             }
-        }
-        else
-        {
-            <tr>
-                <td colspan="3">Nema podataka o pacijentima.</td>
-            </tr>
-        }
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
+

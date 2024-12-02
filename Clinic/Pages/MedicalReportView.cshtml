@@ -1,0 +1,54 @@
+﻿@page "{admissionId:long}"
+@using Clinic.Models.DTOs
+@model Clinic.Pages.MedicalReporViewModel
+@{
+    var admission = Model.Details;
+}
+<div class="card">
+    <div class="card-header primary-color-class text-white">
+        <h4>Detalji prijema</h4>
+    </div>
+    <div class="card-body custom-form">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>ID:</strong> @admission.Id</p>
+                <p><strong>Datum i vreme prijema:</strong> @admission.AdmissionDate.ToString("dd.MM.yyyy HH:mm")</p>
+                <p><strong>Pacijent:</strong> @admission.PatientName</p>
+                <p><strong>Doktor:</strong> @admission.DoctorName</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Hitni prijem:</strong> @(admission.IsEmergency ? "Da" : "Ne")</p>
+                <p><strong>Status prijema:</strong> @(admission.IsCancelled ? "Otkaženo" : "Aktivan")</p>
+                <p><strong>Vreme (sati):</strong> @admission.Hours</p>
+                <p><strong>Minuti:</strong> @admission.Minutes</p>
+            </div>
+        </div>
+        <a href="@Url.Page("/Admissions")" class="btn btn-secondary">Povratak</a>
+    </div>
+</div>
+
+<h1>Nalazi</h1>
+
+<div id="reportsList">
+
+    <div class="row">
+
+        @await Html.PartialAsync("Shared/_SingleMedicalReportPartial", Model.NewMedicalReport)
+        
+    </div>
+
+    @if (Model.MedicalReports != null && Model.MedicalReports.Any())
+    {
+        <div class="row">
+            @foreach (var report in Model.MedicalReports)
+            {
+                <div class="col-md-6 mb-4">
+                    @await Html.PartialAsync("Shared/_SingleMedicalReportPartial", report)
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>Trenutno nema nalaza za ovaj prijem.</p>
+    }

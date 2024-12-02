@@ -11,15 +11,32 @@ namespace Clinic.Pages
     public class AdmissionViewModel : PageModel
     {
         private readonly IAdmissionService _admissionService;
+
         public AdmissionViewModel(IAdmissionService admissionService)
         {
             _admissionService = admissionService;
         }
+
         public IList<GetAdmissionDto> Admissions { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public DateTime? StartDate { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public DateTime? EndDate { get; set; }
+
         public async Task OnGetAsync()
         {
-            Admissions = await _admissionService.GetAllAdmissions();
+            if (StartDate.HasValue || EndDate.HasValue)
+            {
+                Admissions = await _admissionService.SearchAdmissions(StartDate, EndDate);
+            }
+            else
+            {
+                Admissions = await _admissionService.GetAllAdmissions();
+            }
         }
+
         public async Task<IActionResult> OnPostSoftDeleteAsync(long admissionId)
         {
             var result = await _admissionService.CancelAdmission(admissionId);
@@ -32,9 +49,9 @@ namespace Clinic.Pages
             {
                 Admissions = result;
                 return Page();
-
             }
         }
+
         public async Task<IActionResult> OnPostDeleteAsync(long admissionId)
         {
             var result = await _admissionService.DeleteAdmission(admissionId);
@@ -47,8 +64,12 @@ namespace Clinic.Pages
             {
                 Admissions = result;
                 return Page();
-
             }
+        }
+
+        public IActionResult OnPostDetails(long admissionId)
+        {
+            return RedirectToPage("./MedicalReportView", new { admissionId = admissionId });
         }
     }
 }

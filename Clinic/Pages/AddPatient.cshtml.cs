@@ -30,7 +30,6 @@ namespace Clinic.Pages
         public AddPatientDto Patient { get; set; }
 
         public string PageTitle { get; set; }
-        public string ButtonText { get; set; }
 
         public async Task<IActionResult> OnGetAsync(long? patientId)
         {
@@ -47,12 +46,12 @@ namespace Clinic.Pages
 
                 Patient = _mapper.Map<AddPatientDto>(patient);
                 PageTitle = "Izmjeni pacijenta";
-                ButtonText = "Izmjeni";
+
             }
             else
             {
                 PageTitle = "Dodaj pacijenta";
-                ButtonText = "Dodaj";
+
             }
             return Page();
         }
@@ -74,7 +73,7 @@ namespace Clinic.Pages
                var result = await _patientService.UpdatePatient(Patient);
                 if (result != null)
                 {
-                    return RedirectToPage("./AddPatient", new { patientId = result.Id });
+                    return RedirectToPage("./PatientView");
                 }
                 else
                 {

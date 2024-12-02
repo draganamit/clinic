@@ -4,13 +4,15 @@ namespace Clinic.Services.Interfaces
 {
     public interface IMedicalReportService
     {
-        Task<MedicallReportDto> GetMedicalReportById(long medicalReportId);
+        Task<MedicalReportDto> GetMedicalReportById(long medicalReportId);
 
-        Task<List<MedicallReportDto>> GetAllMedicalReports();
+        Task<List<MedicalReportDto>> GetAllMedicalReports();
 
-        Task<MedicallReportDto> AddMedicalReport(MedicallReportDto addMedicalReport);
+        Task<List<MedicalReportDto>> GetAllMedicalReportsForAdmission(long admissionId);
 
-        Task<MedicallReportDto> UpdateMedicalReport(MedicallReportDto updateMedicalReport);
+        Task<MedicalReportDto> AddMedicalReport(MedicalReportDto addMedicalReport);
+
+        Task<MedicalReportDto> UpdateMedicalReport(MedicalReportDto updateMedicalReport);
 
         Task<long> DeleteMedicalReport(long medicalReportId);
     }

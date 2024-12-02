@@ -1,4 +1,4 @@
-﻿@model Clinic.Models.MedicalReport
+﻿@model Clinic.Models.DTOs.MedicalReportDto
 <div class="card" id="card_@Model.Id" data-admissionid="@Model.AdmissionId" data-reportid="@Model.Id">
     <div>
         <button type="button" class="btn btn-primary" onclick="editMediaclReport(@Model.Id)">Izmjeni</button>
@@ -14,10 +14,8 @@
 
 <script>
 
-    function editMediaclReport(id) { 
-
+    function editMediaclReport(id) {
         const reportCard = document.getElementById(`card_${id}`);
-        
 
         const createdAt = reportCard.querySelector(` .card-header`).innerHTML;
         const reportDescription = reportCard.querySelector(` .card-body>p`).innerHTML;
@@ -28,7 +26,7 @@
 
         const modal = document.getElementById('reportModal')
 
-        console.log('reportCard.dataset', reportCard.dataset)
+
         const date = new Date(createdAt);
         const formattedDate = date.toISOString().split('T')[0];
 
@@ -40,6 +38,8 @@
     }
 
     async function deleteReport(reportId, admissionId) {
+        console.log("ajax poziv deleteReport")
+
         const response = await fetch(`/AddAdmission/${admissionId}?handler=RemoveMedicalReport&id=${reportId}`, {
             method: 'POST',
             headers: {

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-Clinic-8a16be50-c123-4794-94d7-47d410118c1b")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("Clinic")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c9a003fcf124925d3039d6fadbc7c2673ce8b541")]
 [assembly: System.Reflection.AssemblyProductAttribute("Clinic")]

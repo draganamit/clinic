@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clinic.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241129214236_AddIsCanceledadmission")]
-    partial class AddIsCanceledadmission
+    [Migration("20241202134316_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

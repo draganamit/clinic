@@ -9,7 +9,7 @@ namespace Clinic.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

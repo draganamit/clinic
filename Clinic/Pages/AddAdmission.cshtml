@@ -9,16 +9,23 @@
     <div class="form-row">
         <div class="form-group">
             <label for="AdmissionDate" class="control-label mb-2">Datum prijema</label>
-            <input asp-for="Admission.AdmissionDate" name="Admission.AdmissionDate" type="date" class="form-control" />
+            @if (Model.Admission != null && Model.Admission.Id > 0)
+            {
+                <input asp-for="Admission.AdmissionDate" name="Admission.AdmissionDate" type="date" class="form-control custom-date-input" />
+            }
+            else
+            {
+                <input asp-for="Admission.AdmissionDate" name="Admission.AdmissionDate" type="date" class="form-control custom-date-input"
+                       min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            }
             <span asp-validation-for="Admission.AdmissionDate" class="text-danger"></span>
         </div>
         <div class="form-group">
             <p class="control-label mb-2">Vrijeme prijema</p>
             <div class="form-row">
-                <input asp-for="Admission.Hours" name="Admission.Hours" type="text" class="form-control form-group" />
+                <input asp-for="Admission.Hours" name="Admission.Hours" type="text" placeholder="Sati" class="form-control form-group" />
                 <span asp-validation-for="Admission.Hours" class="text-danger"></span>
-                <label>:</label>
-                <input asp-for="Admission.Minutes" name="Admission.Minutes" type="text" class="form-control form-group" />
+                <input asp-for="Admission.Minutes" name="Admission.Minutes" type="text" placeholder="Minuti" class="form-control form-group" />
                 <span asp-validation-for="Admission.Minutes" class="text-danger"></span>
             </div>
         </div>
@@ -49,41 +56,4 @@
     <div class="d-flex  justify-content-end">
         <button type="submit" class="custom-button">Sačuvaj</button>
     </div>
-
-@* 
-    @if (Model.Admission !=null && Model.Admission.Id > 0)
-    {
-    <div id="reportsContainer" class="form-group">
-        <div id="modalContainer">
-            @await Html.PartialAsync("Shared/ReportModal", new MedicallReportDto
-
-            {
-               AdmissionId = (long)ViewData["AdmissionId"],
-               CreatedAt = DateTime.Now,
-               Id = 0,
-               ReportDescription = ""
-            })
-        </div>
-
-       
-
-        <h2>Nalzi</h2>
-        <button type="button" class="btn btn-primary" onclick="openModal(0)">Dojaj nalaz</button>
-        <div id="reportsList">
-            @if (Model.Admission?.MedicalReports != null && Model.Admission.MedicalReports.Any())
-        {
-            @foreach (var report in Model.Admission.MedicalReports)
-            {
-                @await Html.PartialAsync("Shared/_MedicalReportPartial", report)
-            }
-        }
-        else
-        {
-            <p>Trenutno nema nalaza za ovaj prijem.</p>
-        }
-    </div>
-
-    </div>
-    }
-    *@
 </form>

@@ -14,7 +14,7 @@ namespace Clinic.Pages
 
         public void OnGet()
         {
-
+            Response.Redirect("./AdmissionView");
         }
     }
 }

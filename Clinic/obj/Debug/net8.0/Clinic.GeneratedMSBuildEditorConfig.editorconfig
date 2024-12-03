@@ -34,10 +34,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkRG9jdG9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/draga/Source/Repos/draganamit/clinic/Clinic/Pages/AddMedicalReport.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkTWVkaWNhbFJlcG9ydC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/draga/Source/Repos/draganamit/clinic/Clinic/Pages/AddPatient.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkUGF0aWVudC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -70,16 +66,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/draga/Source/Repos/draganamit/clinic/Clinic/Pages/Shared/ReportModal.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXFJlcG9ydE1vZGFsLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/draga/Source/Repos/draganamit/clinic/Clinic/Pages/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/draga/Source/Repos/draganamit/clinic/Clinic/Pages/Shared/_MedicalReportPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9NZWRpY2FsUmVwb3J0UGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/draga/Source/Repos/draganamit/clinic/Clinic/Pages/Shared/_SingleMedicalReportPartial.cshtml]

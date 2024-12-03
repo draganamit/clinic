@@ -19,6 +19,7 @@ namespace Clinic.Pages
         public IList<GetDoctorDto> Doctors { get; set; }
         public async Task OnGetAsync()
         {
+            ViewData["ActivePage"] = "/DoctorView";
             Doctors = await _doctorService.GetAllDoctors();
         }
     }

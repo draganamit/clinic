@@ -14,6 +14,7 @@
         <div class="form-group col-md-6">
             <label for="LastName" class="control-label mb-2">Prezime</label>
             <input asp-for="Patient.LastName" name="Patient.LastName" class="form-control" />
+            <span asp-validation-for="Patient.LastName" class="text-danger"></span>
             <span class="text-danger"></span>
         </div>
     </div>
@@ -21,11 +22,13 @@
         <div class="form-group col-md-6">
             <label for="JMBG" class="control-label mb-2">JMBG</label>
             <input asp-for="Patient.JMBG" name="Patient.JMBG" class="form-control" maxlength="13" />
+            <span asp-validation-for="Patient.JMBG" class="text-danger"></span>
             <span class="text-danger"></span>
         </div>
         <div class="form-group col-md-6">
             <label for="DateOfBirth" class="control-label mb-2">Datum rođenja</label>
             <input asp-for="Patient.DateOfBirth" name="Patient.DateOfBirth" type="date" class="custom-date-input form-control" />
+            <span asp-validation-for="Patient.DateOfBirth" class="text-danger"></span>
             <span class="text-danger"></span>
         </div>
     </div>
@@ -35,62 +38,20 @@
             <select asp-for="Patient.GenderId" class="form-control" asp-items="Model.Genders">
                 <option value="">Izaberite pol</option>
             </select>
-            <span class="text-danger"></span>
+            <span asp-validation-for="Patient.GenderId" class="text-danger"></span>
         </div>
         <div class="form-group col-md-6">
             <label for="Address" class="control-label mb-2">Adresa</label>
             <input asp-for="Patient.Address" name="Patient.Address" class="form-control" />
-            <span class="text-danger"></span>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="PhoneNumber" class="control-label mb-2">Broj telefona</label>
             <input asp-for="Patient.PhoneNumber" name="Patient.PhoneNumber" class="form-control" />
-            <span class="text-danger"></span>
         </div>
     </div>
     <div class="d-flex  justify-content-end">
         <button type="submit" class="custom-button">Sačuvaj</button>
     </div>
 </form>
-@* <form method="post">
-    <div class="form-group">
-        <label for="FirstName" class="control-label">Ime</label>
-        <input asp-for="Patient.FirstName" name="Patient.FirstName" class="form-control" />
-        <span asp-validation-for="Patient.FirstName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="LastName" class="control-label">Prezime</label>
-        <input asp-for="Patient.LastName" name="Patient.LastName" class="form-control" />
-        <span class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="JMBG" class="control-label">JMBG</label>
-        <input asp-for="Patient.JMBG" name="Patient.JMBG" class="form-control" maxlength="13" />
-        <span class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="DateOfBirth" class="control-label">Datum rođenja</label>
-        <input asp-for="Patient.DateOfBirth" name="Patient.DateOfBirth" type="date" class="form-control" />
-        <span class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label class="control-label" for="Gender">Pol</label>
-        <select asp-for="Patient.GenderId" class="form-control" asp-items="Model.Genders">
-            <option value="">Izaberite pol</option>
-        </select>
-        <span class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="Address" class="control-label">Adresa</label>
-        <input asp-for="Patient.Address" name="Patient.Address" class="form-control" />
-        <span class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="PhoneNumber" class="control-label">Broj telefona</label>
-        <input asp-for="Patient.PhoneNumber" name="Patient.PhoneNumber" class="form-control" />
-        <span class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">@Model.ButtonText</button>
-</form> *@

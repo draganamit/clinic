@@ -18,6 +18,6 @@ namespace Clinic.Services.Interfaces
 
         Task<List<GetAdmissionDto>> CancelAdmission(long admissionId);
 
-        Task<List<GetAdmissionDto>> SearchAdmissions(DateTime? startDate, DateTime? endDate);
+        Task<List<GetAdmissionDto>> SearchAdmissions(DateTime? startDate, DateTime? endDate, int? statusId);
     }
 }

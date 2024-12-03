@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Clinic.Data;
+using Clinic.Helpers;
 using Clinic.Models;
 using Clinic.Models.DTOs;
 using Clinic.Services.Interfaces;
@@ -23,14 +24,6 @@ namespace Clinic.Services
         {
             try
             {
-                addAdmission.AdmissionDate = new DateTime(
-                                               addAdmission.AdmissionDate.Year,
-                                               addAdmission.AdmissionDate.Month,
-                                               addAdmission.AdmissionDate.Day,
-                                               int.Parse(addAdmission.Hours),
-                                               int.Parse(addAdmission.Minutes),
-                                               0
-                                              );
                 Admission admission = _mapper.Map<Admission>(addAdmission);
                 _context.Admissions.Add(admission);
                 await _context.SaveChangesAsync();
@@ -104,28 +97,14 @@ namespace Clinic.Services
             return _mapper.Map<List<GetAdmissionDto>>(admissions);
         }
 
-        public async Task<List<GetAdmissionDto>> SearchAdmissions(DateTime? startDate, DateTime? endDate)
+        public async Task<List<GetAdmissionDto>> SearchAdmissions(DateTime? startDate, DateTime? endDate, int? statusId)
         {
             var admissionsQuery = _context.Admissions.AsQueryable();
 
-            if (startDate.HasValue && endDate.HasValue)
-            {
-                admissionsQuery = admissionsQuery.Where(a => a.AdmissionDate >= startDate.Value && a.AdmissionDate <= endDate.Value)
-                                                 .Where(a => !a.IsCancelled)
-                                                 .OrderByDescending(a => a.AdmissionDate);
-            }
-            else if (startDate.HasValue)
-            {
-                admissionsQuery = admissionsQuery.Where(a => a.AdmissionDate >= startDate.Value)
-                                                 .Where(a => !a.IsCancelled)
-                                                 .OrderByDescending(a => a.AdmissionDate);
-            }
-            else if (endDate.HasValue)
-            {
-                admissionsQuery = admissionsQuery.Where(a => a.AdmissionDate <= endDate.Value)
-                                                 .Where(a => !a.IsCancelled)
-                                                 .OrderByDescending(a => a.AdmissionDate);
-            }
+            admissionsQuery = admissionsQuery.Where(a => !startDate.HasValue || a.AdmissionDate.Date >= startDate.Value.Date)
+                                              .Where(a => !endDate.HasValue || a.AdmissionDate.Date <= endDate.Value.Date)
+                                              .Where(a => (statusId == 0 && !a.IsCancelled && a.AdmissionDate.Date >= DateTime.Now.Date) || (statusId == 1 && a.AdmissionDate.Date < DateTime.Now.Date) || (statusId == 2 && a.IsCancelled))
+                                              .OrderByDescending(a => a.AdmissionDate);
 
             List<GetAdmissionDto> admissionsList = await admissionsQuery.ProjectTo<GetAdmissionDto>(_mapper.ConfigurationProvider).ToListAsync();
 
@@ -141,7 +120,7 @@ namespace Clinic.Services
                                                 .FirstOrDefaultAsync() ??
                                                 throw new Exception("Prijem nije pronadjen");
 
-            admission.AdmissionDate = updateAdmission.AdmissionDate;
+            admission.AdmissionDate = StringHelper.DateTimeFromString(updateAdmission.AdmissionDate.ToString("dd.MM.yyyy"), updateAdmission.Hours, updateAdmission.Minutes);
             admission.DoctorId = updateAdmission.DoctorId;
             admission.PatientId = updateAdmission.PatientId;
             admission.IsEmergency = updateAdmission.IsEmergency;

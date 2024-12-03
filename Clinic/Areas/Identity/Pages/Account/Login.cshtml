@@ -3,23 +3,27 @@
 @{
 }
 <h2>@ViewData["Title"]</h2>
+<div class="form-container custom-form login-card">
+    <form class="login-form" method="post" asp-antiforgery="true">
+        @Html.AntiForgeryToken()
+        <h3 class="mb-5 text-center">Prijava</h3>
 
-<form method="post" asp-antiforgery="true">
-    @Html.AntiForgeryToken()
-    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-    <div class="form-group">
-        <label asp-for="Credentials.Username" class="control-label"></label>
-        <input asp-for="Credentials.Username" name="Credentials.Username" class="form-control" />
-        <span asp-validation-for="Credentials.Username" class="text-danger"></span>
-    </div>
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="pb-3">
+            <label asp-for="Credentials.Username" class="control-label">Korisničko ime</label>
+            <input asp-for="Credentials.Username" name="Credentials.Username" class="form-control" />
+            <span asp-validation-for="Credentials.Username" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="Credentials.Password" class="control-label"></label>
-        <input asp-for="Credentials.Password" name="Credentials.Password" type="password" class="form-control" />
-        <span asp-validation-for="Credentials.Password" class="text-danger"></span>
-    </div>
+        <div>
+            <label asp-for="Credentials.Password" class="control-label">Lozinka</label>
+            <input asp-for="Credentials.Password" name="Credentials.Password" type="password" class="form-control" />
+            <span asp-validation-for="Credentials.Password" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
-        <input type="submit" class="btn btn-primary" value="Login"/>
-    </div>
-</form>
+        <div class="login-div-button">
+            <input style="width:8rem;" type="submit" class="primary-button" value="Login" />
+        </div>
+    </form>
+</div>
+

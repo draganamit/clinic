@@ -59,7 +59,16 @@ namespace Clinic.Pages
 
         public async Task<IActionResult> OnGetAsync(long? admissionId)
         {
-            NewMedicalReport = new MedicalReportDto();
+
+            NewMedicalReport = new MedicalReportDto
+            {
+                AdmissionId=admissionId ?? 0,
+                CreatedAt=DateTime.Now,
+                Hours= 0,
+                Minutes= 0,
+                Id=0,
+                ReportDescription = ""
+            };
             if (admissionId > 0)
             {
                 Details = await _admissionService.GetAdmissionDetailsById((long)admissionId);
@@ -71,6 +80,21 @@ namespace Clinic.Pages
 
         public async Task<IActionResult> OnPostAsync(long? admissionId)
         {
+
+            if (!ModelState.IsValid)
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
+                if (admissionId > 0)
+                {
+                    Details = await _admissionService.GetAdmissionDetailsById((long)admissionId);
+                    MedicalReports = await _medicalReportService.GetAllMedicalReportsForAdmission((long)admissionId);
+                }
+                return Page();
+            }
+
             await _medicalReportService.AddMedicalReport(NewMedicalReport);
 
             return RedirectToPage("/MedicalReportView", new { admissionId });

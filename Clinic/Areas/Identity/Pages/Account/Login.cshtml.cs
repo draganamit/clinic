@@ -42,11 +42,11 @@ namespace Clinic.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt."); 
+                    ModelState.AddModelError(string.Empty, "Neuspješna prijava."); 
                 }
             }
 
-            ModelState.AddModelError(string.Empty, "Invalid login attempt."); 
+            ModelState.AddModelError(string.Empty, "Neuspješna prijava."); 
             return Page();
         }
     }

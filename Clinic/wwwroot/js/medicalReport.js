@@ -1,6 +1,7 @@
 ﻿async function editReport(id) {
-    const formId = 'medicalReportFormCard_' + id;
 
+
+    const formId = 'medicalReportFormCard_' + id;
     const model = getMedicalReportFormModel(formId);
 
     const response = await editMedicalReportAsync(model);
@@ -33,18 +34,33 @@ function deleteReportCard(formId) {
 function setEditStyle(formId) {
     const formElement = document.getElementById(formId);
     if (formElement) {
-        const editReportMessage = formElement.querySelector("#editReportMessage")
-        if (editReportMessage) {
-            editReportMessage.innerHTML = "Uspješno izmjenjeno.";
-            editReportMessage.hidden = false;
             formElement.querySelectorAll('#createdAt, #hours, #minutes, #reportDescription').forEach(el => {
-                el.addEventListener('input', function () {
-                    editReportMessage.hidden = true;
-                })
+                el.disabled = true;
             })
+            const editButton =  formElement.querySelector("#editButton")
+            const saveButton = formElement.querySelector("#saveButton")
+            editButton.removeAttribute("hidden");
+            saveButton.setAttribute("hidden", "");
         }
+}
+
+function enableButtons(id) {
+
+    const formId = 'medicalReportFormCard_' + id;
+    const formElement = document.getElementById(formId);
+    if (formElement) {
+
+        const editButton = formElement.querySelector("#editButton")
+        const saveButton = formElement.querySelector("#saveButton")
+        editButton.setAttribute("hidden", "")
+        saveButton.removeAttribute("hidden")
+
+    formElement.querySelectorAll('#createdAt, #hours, #minutes, #reportDescription').forEach(el => {
+        el.disabled = false;
+    })
     }
 }
+
 function getMedicalReportFormModel(formId) {
     const singleReport = document.getElementById(formId);
 

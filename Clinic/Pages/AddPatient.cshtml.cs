@@ -63,7 +63,7 @@ namespace Clinic.Pages
                 {
                     Console.WriteLine(error.ErrorMessage); 
                 }
-
+                Genders = await _codeService.GetGenders();
                 return Page();
             }
 

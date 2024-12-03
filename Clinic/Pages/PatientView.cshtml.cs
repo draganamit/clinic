@@ -21,6 +21,7 @@ namespace Clinic.Pages
 
         public async Task OnGetAsync()
         {
+            ViewData["ActivePage"] = "/PatientView";
             Patients = await _patientService.GetAllPatients();
         }
     }

@@ -1,31 +1,39 @@
 ﻿@model Clinic.Models.DTOs.MedicalReportDto
-<div class="card">
+<div class="card p-0 custom-form">
     <form method="post" id="medicalReportFormCard_@Model.Id">
         @if(Model.Id == 0)
         {
-        <div id="MedicalReports" class="card-header">
+            <div id="MedicalReports" class="card-header primary-color-class text-white">
             <h4>Dodavanje nalaza</h4>
         </div>
         }
-    <div class="card-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-auto">
-                    <div class="form-group">
-                            <input asp-for="CreatedAt" type="date" id="createdAt" name="CreatedAt" class="form-control"  />
+        <div class="card-header" style="background-color:#cbe9ef;">
+        <div class="card">
+                <div class="d-flex justify-content-start p-1">
+                <div class="col-auto" >
+                    <div class="d-flex align-items-center">
+                            <b class="px-1"> Datum:</b>
+                            <input asp-for="CreatedAt" type="date" id="createdAt" name="CreatedAt" required class="form-control custom-date-input" disabled="@(Model.Id == 0 ? false : true)" />
                     </div>
+                            <span asp-validation-for="CreatedAt" class="text-danger"></span>
                 </div>
 
-                <div class="col-auto">
-                    <div class="form-group">
-                            <input asp-for="Hours" type="number" id="hours" name="Hours" class="form-control" min="0" max="23"  />
+                    <div class="col-auto" >
+                        <div class="d-flex align-items-center">
+                            <b class="px-1"> Sati:</b>
+
+                           <input asp-for="Hours" type="number" id="hours" name="Hours" required class="form-control" min="0" max="23" disabled="@(Model.Id == 0 ? false : true)" />
                     </div>
+                            <span asp-validation-for="Hours" class="text-danger"></span>
                 </div>
 
-                <div class="col-auto">
-                    <div class="form-group">
-                            <input asp-for="Minutes" type="number" id="minutes" name="Minutes" class="form-control" min="0" max="59"  />
+                    <div class="col-auto" >
+                        <div class="d-flex align-items-center">
+                            <b class="px-1"> Minuta:</b>
+
+                           <input asp-for="Minutes" type="number" id="minutes" name="Minutes" required class="form-control" min="0" max="59" disabled="@(Model.Id == 0 ? false : true)" />
                     </div>
+                            <span asp-validation-for="Minutes" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -34,17 +42,19 @@
             <input asp-for="Id" type="hidden" id="id" name="Id" />
             <input asp-for="AdmissionId" type="hidden" id="admissionId" name="AdmissionId"  />
 
-            <div class="form-group">
-                <textarea asp-for="ReportDescription" id="reportDescription" name="ReportDescription" class="form-control h-150px"></textarea>
+            <div class="pb-4">
+                <textarea asp-for="ReportDescription" id="reportDescription" name="ReportDescription" class="h-150px w-100" disabled="@(Model.Id == 0 ? false : true)"></textarea>
+                <span asp-validation-for="ReportDescription" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div >
                 @if(Model.Id == 0){
-                    <button type="submit" class="btn btn-primary">Sačuvaj</button>
+                    <button type="submit" class="custom-button">Sačuvaj</button>
                 }
                 else
                 {
-                    <button id="editButton" type="button" class="btn btn-primary" onclick="editReport(@Model.Id)">Sačuvaj</button>
-                    <button type="button" class="btn btn-primary" onclick="deleteReport(@Model.Id)">Obriši</button>
+                    <button id="editButton" type="button" class="custom-button" onclick="enableButtons(@Model.Id)">Izmjeni</button>
+                    <button id="saveButton" hidden="true" type="button" class="custom-button" onclick="editReport(@Model.Id)">Sačuvaj</button>
+                    <button type="button" class="custom-button secondary-color-class" onclick="deleteReport(@Model.Id)">Obriši</button>
                     <span hidden id="editReportMessage"></span>
                 }
 

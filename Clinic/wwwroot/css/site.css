@@ -21,6 +21,14 @@ body {
     margin-bottom: 60px;
 }
 
+i{
+    margin: 0 0.25rem;
+}
+
+.ml-auto
+{
+    margin-left:auto;
+}
 .h-150px {
     height: 150px;
 }
@@ -41,13 +49,11 @@ body {
 }
 
 .form-row {
-    /* margin-bottom: 15px;*/
     display: flex;
     gap: 4%;
 }
 
 .form-group {
-    /*margin-bottom: 15px;*/
     width: 48% !important
 }
 
@@ -55,29 +61,43 @@ body {
     height: 40px;
 }
 
-input, select {
+
+/*input, select {
     margin-bottom: 10px;
 }
+*/
 
+input:disabled
+{
+    background-color:white !important;
+    border:none;
+}
 .primary-color-class {
     background-color: #20a4bf;
+}
+.secondary-color-class {
+    background-color: #699ca7 !important;
 }
 
 .custom-button {
     background-color: #20a4bf;
     color: white;
-    width: 20%;
-    padding: 10px 20px;
+    width: 9rem;
+    padding: 0.5rem 0;
     border: none;
     border-radius: 5px;
     font-size: 16px;
-    transition: background-color 0.3s ease;
+    text-align: center;
 }
 
-    .custom-button:hover {
-        color: white !important;
-        background-color: #1a8f99 !important;
-        cursor: pointer !important;
+.custom-button:hover {
+    color: white !important;
+    background-color: #699ca7 !important;
+    cursor: pointer !important;
+}
+    .custom-button:disabled {
+        background-color: #699ca7 !important;
+        cursor: default !important
     }
 
 .custom-form {
@@ -89,10 +109,10 @@ input, select {
     transition: box-shadow 0.3s ease;
 }
 
-    .custom-form:hover {
-        box-shadow: 0 4px 16px rgba(32, 164, 191, 0.5);
-        border-color: #1a8f99;
-    }
+.custom-form:hover {
+    box-shadow: 0 4px 16px rgba(32, 164, 191, 0.5);
+    border-color: #1a8f99;
+}
 
 .custom-date-input:focus {
     border-color: #20a4bf !important;
@@ -116,36 +136,84 @@ input, select {
 }
 
 .custom-table {
-    width: 100%; /* Da tabela zauzima celu širinu roditelja */
-    border-collapse: collapse; /* Služi za spajanje ivica tabele */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Dodaje sijenku tabele */
+    width: 100%;
+    border-collapse: collapse; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-    /* Stilizovanje okvira tabele */
-    .custom-table th, .custom-table td {
-        border: 1px solid #20a4bf; /* Postavlja boju bordera */
-        padding: 10px; /* Razmak oko sadržaja u ćelijama */
-        text-align: left; /* Poravnava tekst ulevo */
-    }
+.custom-table th, .custom-table td {
+    border: 1px solid #20a4bf;
+    padding: 10px;
+    text-align:center !important;
+}
 
-    /* Stilizovanje headera tabele */
-    .custom-table th {
-        background-color: #20a4bf; /* Postavlja pozadinsku boju za header */
-        color: white; /* Tekst u headeru u beloj boji */
-        font-weight: bold; /* Podebljan tekst u headeru */
-    }
+.custom-table th {
+     background-color: #20a4bf; 
+     color: white; 
+     font-weight: bold;
+}
 
-    /* Naizmjenično obojeni redovi */
-    .custom-table tr:nth-child(odd) {
-        background-color: #f0f8ff; /* Svetlo plava boja za neparne redove */
-    }
+.custom-table tr:nth-child(odd) {
+      background-color: #cbe9ef;
+}
 
-    .custom-table tr:nth-child(even) {
-        background-color: #ffffff; /* Bela boja za parne redove */
-    }
-
-    /* Hover efekat za redove */
+.custom-table tr:nth-child(even) {
+      background-color: #ffffff;
+ }
     .custom-table tr:hover {
-        background-color: #1a8f99; /* Postavlja pozadinsku boju za red kada je pređen mišem */
-        color: white; /* Menja boju teksta u beli pri hover-u */
+        background-color: #b3d3d9;
+        color: white;
     }
+
+
+
+.primary-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    padding: 0.5rem;
+    white-space: nowrap;
+    background-color: #20a4bf;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.primary-button:hover{
+        background-color: #699ca7;
+        color:white;
+ }
+
+
+.admission-search-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.login-card{
+    height: 50vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.login-form{
+    width:100%;
+    padding: 18rem
+}
+.login-div-button {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+    padding-top: 1rem;
+}
+
+.nav-link.active {
+    background-color: #20a4bf;
+    color: white !important;
+    border-radius: 15px;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease;
+}

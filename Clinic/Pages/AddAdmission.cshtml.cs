@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Clinic.Enums;
 using Clinic.Services.Interfaces;
 using Clinic.Services;
+using Clinic.Models.Codes;
 
 namespace Clinic.Pages
 {
@@ -34,8 +35,10 @@ namespace Clinic.Pages
             _doctorService = doctorService;
             _medicalReportService = medicalReportService;
         }
-
+        [BindProperty]
         public IList<SelectListItem> Patients { get; set; }
+
+        [BindProperty]
         public IList<SelectListItem> Doctors { get; set; }
 
         [BindProperty]
@@ -63,18 +66,22 @@ namespace Clinic.Pages
                 Admission = _mapper.Map<AddAdmissionDto>(admission);
 
                 PageTitle = "Izmjeni prijem";
-                ButtonText = "Izmjeni";
             }
             else
             {
                 ViewData["AdmissionId"] = (long)0;
-                PageTitle = "Dodaj prijem";
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(long? admissionId)
         {
+
+
+            Patients = await _patientService.GetListPatients();
+
+            Doctors = await _doctorService.GetListDoctors();
+
             if (!ModelState.IsValid)
             {
                 foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
@@ -91,7 +98,7 @@ namespace Clinic.Pages
                 var result = await _admissionService.UpdateAdmission(Admission);
                 if (result != null)
                 {
-                    return RedirectToPage("./AddAdmission", new { admissionId = result.Id });
+                    return RedirectToPage("./AdmissionView");
                 }
                 else
                 {
@@ -113,42 +120,6 @@ namespace Clinic.Pages
             }
         }
 
-        public async Task<IActionResult> OnPostAddMedicalReport(long admissionId, [FromBody] MedicalReportDto medicallReport)
-        {
-            MedicalReportDto report = medicallReport.Id > 0 ?
-            await _medicalReportService.UpdateMedicalReport(medicallReport) :
-            await _medicalReportService.AddMedicalReport(medicallReport);
-
-            return Partial("_MedicalReportPartial", report);
-        }
-
-        public async Task<IActionResult> OnPostRemoveMedicalReport(long admissionId, long id)
-        {
-            long report = await _medicalReportService.DeleteMedicalReport(id);
-
-            return new JsonResult(new
-            {
-                success = true,
-                id = id
-            });
-        }
-
-        public async Task<IActionResult> OnPostEditReportModal(long admissionId, long reportId)
-        {
-            var report = await _medicalReportService.GetMedicalReportById(reportId);
-
-            if (report == null)
-            {
-                report = new MedicalReportDto
-                {
-                    AdmissionId = (long)ViewData["AdmissionId"],
-                    CreatedAt = DateTime.Now,
-                    Id = 0,
-                    ReportDescription = ""
-                };
-            }
-
-            return Partial("ReportModal", report);
-        }
+       
     }
 }

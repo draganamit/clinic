@@ -4,34 +4,36 @@
 @{
     var admission = Model.Details;
 }
-<div class="card">
+<div class="row">
+
+<div class="card p-0 border-0 custom-form mb-4">
     <div class="card-header primary-color-class text-white">
         <h4>Detalji prijema</h4>
     </div>
     <div class="card-body custom-form">
         <div class="row">
             <div class="col-md-6">
-                <p><strong>ID:</strong> @admission.Id</p>
-                <p><strong>Datum i vreme prijema:</strong> @admission.AdmissionDate.ToString("dd.MM.yyyy HH:mm")</p>
+                <p><strong>Datum i vrijeme prijema:</strong> @admission.AdmissionDate</p>
                 <p><strong>Pacijent:</strong> @admission.PatientName</p>
                 <p><strong>Doktor:</strong> @admission.DoctorName</p>
             </div>
             <div class="col-md-6">
                 <p><strong>Hitni prijem:</strong> @(admission.IsEmergency ? "Da" : "Ne")</p>
                 <p><strong>Status prijema:</strong> @(admission.IsCancelled ? "Otkaženo" : "Aktivan")</p>
-                <p><strong>Vreme (sati):</strong> @admission.Hours</p>
+                <p><strong>Vrijeme (sati):</strong> @admission.Hours</p>
                 <p><strong>Minuti:</strong> @admission.Minutes</p>
             </div>
         </div>
-        <a href="@Url.Page("/Admissions")" class="btn btn-secondary">Povratak</a>
+        <a href="@Url.Page("/AdmissionView")" class="btn btn-secondary secondary-color-class">Povratak</a>
     </div>
 </div>
+</div>
 
-<h1>Nalazi</h1>
+
 
 <div id="reportsList">
 
-    <div class="row">
+    <div class="row pb-4">
 
         @await Html.PartialAsync("Shared/_SingleMedicalReportPartial", Model.NewMedicalReport)
         
@@ -39,7 +41,8 @@
 
     @if (Model.MedicalReports != null && Model.MedicalReports.Any())
     {
-        <div class="row">
+        <h4 class="px-0 py-2 m-0">Nalazi</h4>
+        <div class="row pb-4">
             @foreach (var report in Model.MedicalReports)
             {
                 <div class="col-md-6 mb-4">

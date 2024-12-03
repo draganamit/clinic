@@ -23,7 +23,9 @@ namespace Clinic.Pages
             _codeService = codeService;
             _dctorService = doctorService;
         }
+
         public IList<SelectListItem> Genders { get; set; }
+
         public IList<SelectListItem> Titles { get; set; }
 
         [BindProperty]
@@ -57,13 +59,16 @@ namespace Clinic.Pages
         }
         public async Task<IActionResult> OnPostAsync(long? doctorId)
         {
+
             if (!ModelState.IsValid)
             {
                 foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
                 {
                     Console.WriteLine(error.ErrorMessage);
                 }
+                Genders = await _codeService.GetGenders();
 
+                Titles = await _codeService.GetTitles();
                 return Page();
             }
             if (doctorId.HasValue)

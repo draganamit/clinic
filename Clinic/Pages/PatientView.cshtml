@@ -3,7 +3,7 @@
 @{
 }
 <div class="w-100 d-flex justify-content-end p-4">
-    <a class="custom-button text-decoration-none d-block text-center" href="@Url.Page("/AddPatient")">Dodaj pacijenta</a>
+    <a class="custom-button text-decoration-none d-block text-center" href="@Url.Page("/AddPatient")"><i class="fa-solid fa-plus"></i>Dodaj pacijenta</a>
 </div>
 <div class="pb-4 px-4">
     <table class="custom-table">
@@ -16,7 +16,7 @@
                 <th>Pol</th>
                 <th>Adresa</th>
                 <th>Broj telefona</th>
-                <th>Akcije</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -34,7 +34,9 @@
                         <td>@patient.PhoneNumber</td>
                         <td>
                             <form method="get" asp-page="AddPatient" asp-route-patientId="@patient.Id" style="display:inline;">
-                                <button type="submit" class="custom-button">Izmjeni</button>
+                                <button title="Izmjeni" type="submit" class="custom-button" style="width: 100% !important;">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                    </button>
                             </form>
                         </td>
                     </tr>

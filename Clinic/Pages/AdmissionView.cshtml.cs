@@ -25,16 +25,15 @@ namespace Clinic.Pages
         [BindProperty(SupportsGet = true)]
         public DateTime? EndDate { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public int? AdmissionStatus { get; set; } = 0;
+
+
         public async Task OnGetAsync()
         {
-            if (StartDate.HasValue || EndDate.HasValue)
-            {
-                Admissions = await _admissionService.SearchAdmissions(StartDate, EndDate);
-            }
-            else
-            {
-                Admissions = await _admissionService.GetAllAdmissions();
-            }
+            ViewData["ActivePage"] = "/AdmissionView";
+            Admissions = await _admissionService.SearchAdmissions(StartDate, EndDate, AdmissionStatus);
+           
         }
 
         public async Task<IActionResult> OnPostSoftDeleteAsync(long admissionId)

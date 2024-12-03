@@ -3,7 +3,7 @@
 @{
 }
 <div class="w-100 d-flex justify-content-end p-4">
-    <a class="custom-button text-decoration-none d-block text-center" href="@Url.Page("/AddDoctor")">Dodaj doktora</a>
+    <a class="custom-button text-decoration-none d-block text-center" href="@Url.Page("/AddDoctor")"><i class="fa-solid fa-plus"></i>Dodaj doktora</a>
 
 </div>
 <div class="pb-4 px-4">
@@ -39,7 +39,9 @@
                         <td>@doctor.DoctorCode</td>
                         <td>
                             <form method="get" asp-page="AddDoctor" asp-route-doctorId="@doctor.Id" style="display:inline;">
-                                <button type="submit" class="custom-button" style="width: 100% !important;">Izmjeni</button>
+                                <button title="Izmjeni" type="submit" class="custom-button" style="width: 100% !important;">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                    </button>
                             </form>
                         </td>
 

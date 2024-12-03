@@ -26,10 +26,9 @@ namespace Clinic.Helpers
             return $"{firstName} {lastName} ({JMBG})";
         }
 
-        public static DateTime DateTimeFromString(string date, string hour, string minute) {
-        
-        return DateTime.ParseExact((date + ' ' + hour + ":" + minute), "dd.MM.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture);
-
+        public static DateTime DateTimeFromString(string date, int hour, int minute)
+        {
+            return DateTime.ParseExact((date + ' ' + hour.ToString("D2") + ":" + minute.ToString("D2")), "dd.MM.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture);
         }
     }
 }

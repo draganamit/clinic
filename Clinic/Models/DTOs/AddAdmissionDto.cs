@@ -7,8 +7,8 @@
         public long PatientId { get; set; }
         public long DoctorId { get; set; }
         public bool IsEmergency { get; set; }
-        public string Hours { get; set; }
-        public string Minutes { get; set; }
+        public int Hours { get; set; }
+        public int Minutes { get; set; }
         public ICollection<MedicalReportDto> MedicalReports { get; set; } = new List<MedicalReportDto>();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Clinic.Data;
+using Clinic.Helpers;
 using Clinic.Models;
 using Clinic.Models.DTOs;
 using Clinic.Services.Interfaces;
@@ -67,7 +68,7 @@ namespace Clinic.Services
 
             medicalReport.ReportDescription = updateMedicalReport.ReportDescription;
             medicalReport.AdmissionId = updateMedicalReport.AdmissionId;
-            medicalReport.CreatedAt = updateMedicalReport.CreatedAt;
+            medicalReport.CreatedAt = StringHelper.DateTimeFromString(updateMedicalReport.CreatedAt.ToString("dd.MM.yyyy"), updateMedicalReport.Hours, updateMedicalReport.Minutes);
 
             _context.Update(medicalReport);
             await _context.SaveChangesAsync();

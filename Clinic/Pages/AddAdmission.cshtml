@@ -23,9 +23,9 @@
         <div class="form-group">
             <p class="control-label mb-2">Vrijeme prijema</p>
             <div class="form-row">
-                <input asp-for="Admission.Hours" name="Admission.Hours" type="text" placeholder="Sati" class="form-control form-group" />
+                <input asp-for="Admission.Hours" name="Admission.Hours" type="number" placeholder="Sati" class="form-control form-group" min="0" max="23" required />
                 <span asp-validation-for="Admission.Hours" class="text-danger"></span>
-                <input asp-for="Admission.Minutes" name="Admission.Minutes" type="text" placeholder="Minuti" class="form-control form-group" />
+                <input asp-for="Admission.Minutes" name="Admission.Minutes" type="number" placeholder="Minuti" class="form-control form-group" min="0" max="59"  required />
                 <span asp-validation-for="Admission.Minutes" class="text-danger"></span>
             </div>
         </div>

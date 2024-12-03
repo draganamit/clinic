@@ -46,8 +46,7 @@ namespace Clinic.Pages
             }
             else
             {
-                Admissions = result;
-                return Page();
+                return RedirectToPage();
             }
         }
 
@@ -61,8 +60,7 @@ namespace Clinic.Pages
             }
             else
             {
-                Admissions = result;
-                return Page();
+                return RedirectToPage();
             }
         }
 

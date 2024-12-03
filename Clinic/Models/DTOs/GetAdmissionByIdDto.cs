@@ -10,8 +10,8 @@
         public bool IsCancelled { get; set; }
         public Patient Patient { get; set; }
         public Doctor Doctor { get; set; }
-        public string Hours { get; set; }
-        public string Minutes { get; set; }
+        public int Hours { get; set; }
+        public int Minutes { get; set; }
         public ICollection<MedicalReportDto> MedicalReports { get; set; }
     }
 }
